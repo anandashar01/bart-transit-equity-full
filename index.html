@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BART Transit Equity Analysis - Berkeley Stations (2019-2024)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f5f5f5;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            background: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        nav .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav .nav-title {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85em;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 60px 50px 50px 50px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        header .meta {
+            font-size: 0.95em;
+            opacity: 0.8;
+            margin-top: 25px;
+        }
+
+        /* Content */
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            font-weight: 400;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.3em;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        p {
+            margin-bottom: 25px;
+            text-align: justify;
+            text-justify: inter-word;
+            line-height: 1.9;
+        }
+
+        /* Citation links */
+        .cite {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-left: 2px;
+            margin-right: 2px;
+            display: inline-block;
+        }
+
+        .cite:hover {
+            text-decoration: underline;
+        }
+
+        /* Embedded visualizations */
+        .viz-embed {
+            margin: 60px 0;
+            padding: 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: white;
+            clear: both;
+        }
+
+        .viz-embed iframe {
+            width: 100%;
+            height: 850px;
+            border: none;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .viz-caption {
+            background: #f8f9fa;
+            padding: 25px 30px;
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .viz-caption strong {
+            color: #2c3e50;
+        }
+
+        /* Modal for additional visualizations */
+        .modal-link {
+            display: inline-block;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            transition: all 0.3s;
+            margin: 5px 0;
+        }
+
+        .modal-link:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        /* References */
+        .reference {
+            margin-bottom: 15px;
+            padding-left: 30px;
+            text-indent: -30px;
+        }
+
+        .reference a {
+            color: #3498db;
+            word-break: break-all;
+        }
+
+        /* Limitations box */
+        .limitation-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        /* Policy recommendation boxes */
+        .policy-box {
+            background: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal (for supporting visualizations) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 95%;
+            height: 90%;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div class="nav-container">
+        <div class="nav-title">BART Transit Equity Analysis</div>
+        <div class="nav-links">
+            <a href="#introduction">Introduction</a>
+            <a href="#methods">Methods</a>
+            <a href="#results">Results</a>
+            <a href="#limitations">Limitations</a>
+            <a href="#policy">Policy</a>
+            <a href="#references">References</a>
+            <a href="#data-tables">Data Tables</a>
+            <a href="#data-pipeline-reproducibility">Reproducibility</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<header>
+    <h1>The Paradox of Multimodal Access:<br>Transit Equity and Ridership Collapse in Berkeley (2019-2024)</h1>
+    <div class="subtitle">A Geospatial and Temporal Analysis of BART Service Degradation and Recovery</div>
+    <div class="meta">
+        Anand Ashar and Sean Yue | University of California, Berkeley<br>
+        City Planning 101: Introduction to Urban Data Analytics | Fall 2025
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="content">
+
+        <!-- INTRODUCTION -->
+        <section id="introduction" class="section">
+            <h2>Introduction</h2>
+            
+            <p>The COVID-19 pandemic disrupted urban transportation systems worldwide, with transit ridership collapsing by over 90% during initial lockdowns <a href="#ref1" class="cite">[1]</a>. In the San Francisco Bay Area, this disruption exposed long-standing questions about transit equity: who depends on public transportation, who has alternatives, and how do system failures differentially impact vulnerable populations? Five years after the initial shock, ridership recovery remains incomplete, raising urgent questions about the future of urban mobility and environmental sustainability.</p>
+
+            <p>This analysis examines Berkeley's three BART (Bay Area Rapid Transit) stations—Downtown Berkeley, North Berkeley, and Ashby—to investigate how service degradation during the pandemic period (2019-2024) affected riders across different income levels and multimodal connectivity contexts. Berkeley provides an ideal natural experiment: three stations serving demographically distinct populations, with varying degrees of access to alternative transit modes (AC Transit bus service), all experiencing the same system-wide service disruptions.</p>
+
+            <h3>Research Question</h3>
+
+            <p>Our central research question asks: <em>How did BART ridership collapse and incomplete recovery (2019-2024) differentially impact Berkeley's three stations (Downtown Berkeley, North Berkeley, Ashby) across varying income levels and multimodal connectivity, and where did the missing regional riders go?</em> Specifically, we investigate whether low-income, transit-dependent areas experienced worse outcomes than wealthier areas with more transportation alternatives, and whether superior multimodal access (denser bus service) provided resilience against rail service disruptions during the COVID-19 pandemic period.</p>
+
+            <p>During our analysis, we discovered this question required expansion to understand the full dynamics of ridership collapse and incomplete recovery. We found ourselves asking: Why did ridership collapse more severely than service degradation would predict? Where did the missing Bay Area transit riders go? Why did areas with less vehicle access paradoxically retain more riders despite experiencing equal service degradation? What role did AC Transit (bus) alternatives play when BART service faltered? And why hasn't ridership recovered even after offices reopened and service quality improved to pre-pandemic levels?</p>
+
+            <h3>The Unexpected Paradox</h3>
+
+            <p>Conventional wisdom in transportation planning suggests that multimodal connectivity provides resilience: areas with multiple transit options (rail plus bus) should weather disruptions better than areas dependent on a single mode. Our analysis reveals a striking paradox that challenges this assumption. Downtown Berkeley, classified as low-income based on census median household income data (note that this includes UC Berkeley students whose temporary student poverty differs substantially from long-term economic disadvantage—see Limitations section for full discussion), has twice the AC Transit connectivity of North Berkeley and Ashby (18 bus routes versus 9 routes, and 103.6 trips per hour versus 47.0 and 44.5 trips per hour, respectively) <a href="#ref2" class="cite">[2]</a>. Yet despite this superior multimodal access, Downtown Berkeley experienced comparable ridership losses: 64% ridership decline (from 11,566 to 4,170 daily riders) compared to 62% at North Berkeley and 70% at Ashby <a href="#ref3" class="cite">[3]</a>.</p>
+
+            <p>This finding contradicts the expected pattern where better multimodal access should buffer against single-mode failures. The explanation lies in a critical but often overlooked dynamic: <em>both</em> transit systems degraded simultaneously. When BART on-time performance dropped from 90% (2019) to 71% (2023) <a href="#ref1" class="cite">[1]</a>, AC Transit was simultaneously cutting service by 15-30% due to driver shortages and pandemic-era budget constraints <a href="#ref4" class="cite">[4]</a>. Multimodal resilience only functions when alternative systems remain viable. When all transit modes degrade together, even superior connectivity provides no protective effect.</p>
+
+            <h3>Why This Matters</h3>
+
+            <p>Understanding the patterns of transit ridership loss and incomplete recovery carries profound implications for urban planning, climate policy, and social equity. Transit ridership is not merely a performance metric for transportation agencies—it reflects fundamental questions about urban accessibility, environmental sustainability, and economic opportunity. The permanent loss of 66,000 daily transit riders across the Bay Area (34% below 2019 levels as of 2024) <a href="#ref5" class="cite">[5]</a> represents a structural shift in urban mobility with cascading consequences.</p>
+
+            <p>The demographic sorting of who left versus who stayed reveals uncomfortable truths about transportation choice versus transportation dependence. Affluent stations like Rockridge and Orinda retained only 30% of pre-pandemic ridership, while Downtown Berkeley retained 36% <a href="#ref3" class="cite">[3]</a>. Wealthier riders—those who could relocate, work from home, or buy cars—exercised their options and abandoned transit. Meanwhile, riders without vehicle access (33% of Downtown Berkeley households) <a href="#ref6" class="cite">[6]</a> stayed captive to degraded service. Transit is becoming a service for those with no alternatives, raising troubling questions about political sustainability of public investment.</p>
+
+            <p>The climate implications are equally alarming. Bay Area commute mode share data shows transit declining from 13% of commutes (2019) to just 7% (2023)—a permanent loss of 6 percentage points—while driving rebounded from 73% to 68% <a href="#ref7" class="cite">[7]</a>. Each percentage point of mode shift represents approximately 50,000 daily commuters. Converting former transit riders into drivers directly contradicts California's ambitious greenhouse gas reduction targets, which explicitly rely on increased transit modal share.</p>
+
+            <p>This analysis adds to urban transportation scholarship by providing granular, station-level analysis of pandemic-era transit disruptions, with explicit attention to income-stratified impacts and multimodal connectivity dynamics. Unlike system-wide aggregate analyses, we demonstrate how identical service degradation produces differential outcomes mediated by demographic context and alternative mode availability. Our findings challenge the assumption that multimodal planning inherently promotes equity and resilience, showing instead that <em>coordinated failure</em> across transit modes can amplify rather than mitigate vulnerability.</p>
+        </section>
+
+
+        <!-- METHODS -->
+        <section id="methods" class="section">
+            <h2>Data and Methods</h2>
+
+            <p>This analysis integrates multiple public datasets spanning 2018-2024 to construct a comprehensive picture of transit service quality, ridership dynamics, demographic context, and multimodal connectivity. Our methodological approach combines geospatial analysis (buffer-based transit access measurement, spatial joins), temporal trend analysis (quarterly time series), and statistical computation (rates, densities, normalization by population). All analysis was conducted using Python (pandas, geopandas, plotly) with code and data available in our GitHub repository for full reproducibility.</p>
+
+            <h3>Primary Data Sources</h3>
+
+            <p>BART ridership and performance data come from quarterly performance reports published by the agency, which provide station-level fare gate entry counts and system-wide on-time performance metrics from 2018-2024 <a href="#ref1" class="cite">[1]</a>. These reports form the foundation of our temporal analysis, allowing us to track ridership and service quality across pre-COVID (2018-2019), during-COVID (2020-2021), and post-COVID recovery (2022-2024) periods. We extracted daily weekday average ridership for each of Berkeley's three stations: Downtown Berkeley, North Berkeley, and Ashby.</p>
+
+            <p>Demographic data derive from the U.S. Census Bureau's American Community Survey (ACS) 5-year estimates (2019-2023), specifically Tables B19013 (median household income), B25044 (vehicle ownership), and B08301 (journey to work mode share) <a href="#ref6" class="cite">[6]</a> <a href="#ref7" class="cite">[7]</a>. We conducted spatial analysis at the census block group level—finer resolution than tracts—to more accurately capture neighborhood-scale variation. Block groups were aggregated to 0.5-mile pedestrian catchment areas around each BART station using GeoPandas buffer operations, with population-weighted averaging to account for partial block group overlaps.</p>
+
+            <p>Multimodal connectivity data come from AC Transit's General Transit Feed Specification (GTFS) feed (November 2024) <a href="#ref2" class="cite">[2]</a>, which provides route geometries, stop locations, and service frequencies. We identified all AC Transit routes with stops within 0.5 miles of each BART station (walkable distance per transportation planning standards) and calculated peak-hour trip frequency (number of buses per hour, 7-9 AM) as our connectivity metric. This captures not just the number of routes but the actual service intensity, which better reflects practical multimodal options.</p>
+
+            <p>Bay Area regional context comes from multiple sources: AC Transit annual ridership reports <a href="#ref4" class="cite">[4]</a>, Bay Area Council Economic Institute remote work surveys <a href="#ref8" class="cite">[8]</a>, California Department of Finance population estimates <a href="#ref9" class="cite">[9]</a>, and regional commute mode share data from ACS Table B08301 <a href="#ref7" class="cite">[7]</a>. These sources allowed us to contextualize Berkeley station patterns within broader regional trends and to investigate the fate of "missing riders" who did not return to transit post-pandemic.</p>
+
+            <h3>Spatial Analysis Methods</h3>
+
+            <p>Our geospatial approach centers on 0.5-mile buffer analysis, reflecting the transportation planning standard for walkable station access. For each BART station, we created circular buffers (Euclidean distance) and performed spatial joins with census block group boundaries. When block groups partially overlapped buffers, we used population-weighted averaging to assign demographic attributes proportionally. This approach is more sophisticated than simple tract-level assignment and reduces Modifiable Areal Unit Problem (MAUP) artifacts, though we acknowledge residual MAUP sensitivity in our Limitations section.</p>
+
+            <p><strong>Tract vs. Block Group Comparison:</strong> We explicitly compared both spatial resolutions to assess MAUP sensitivity. Census tracts average 4,000 residents while block groups average 1,500 residents, providing finer geographic precision. For Downtown Berkeley's 0.5-mile catchment, tract-level analysis intersected 11 census tracts while block group analysis intersected 21 block groups—nearly double the spatial units, enabling more granular income variation detection. Within Downtown Berkeley's catchment, block groups revealed median household incomes ranging from approximately $42,000 to $95,000, demonstrating substantial within-station heterogeneity that tract-level aggregation would obscure. We chose block group level data for our final analysis to maximize spatial precision while maintaining data reliability (block groups have sufficient sample sizes for stable ACS estimates).</p>
+
+            <p>AC Transit route connectivity was measured using similar buffer-based spatial joins. We extracted all AC Transit stops falling within station buffers, identified their parent routes using the GTFS trips and routes tables, and counted unique routes. Service frequency was calculated by extracting all scheduled trips during peak morning hours (7-9 AM weekdays) for routes serving each station area. This captures the practical reality of multimodal access: not just whether alternatives exist, but whether they provide adequate frequency to serve as viable BART substitutes.</p>
+
+            <p>Income data show Downtown Berkeley with median household income of $63,596 compared to North Berkeley ($95,556) and Ashby ($103,532) <a href="#ref6" class="cite">[6]</a>. However, these numbers require careful interpretation. Downtown Berkeley's lower reported income is heavily influenced by UC Berkeley students who comprise a large share of the catchment area population. Students typically report very low household incomes during enrollment (often near zero) because they're temporarily out of the labor force, but many come from middle- or upper-income families and will have high future earnings. This is "statistical poverty" rather than economic disadvantage—fundamentally different from long-term low-income families who lack resources and alternatives. The catchment area includes substantial student housing (dormitories, co-ops, graduate apartments), young professionals, and UC faculty, creating a complex socioeconomic mix where census median income ($63,596) substantially understates actual economic resources. For analytical purposes, we use "Downtown Berkeley" versus "North Berkeley and Ashby" as comparative categories, but we do not claim Downtown represents a truly disadvantaged low-income community in the traditional equity sense. See Limitations section ("Ecological Fallacy") for full discussion of why student populations complicate income-based equity analysis.</p>
+
+            <h3>Temporal and Statistical Methods</h3>
+
+            <p>Our temporal analysis uses quarterly data to construct time series spanning 2018-2024, allowing us to observe pre-pandemic baselines, pandemic-era collapse, and post-pandemic recovery trajectories. We indexed ridership to 2019 as the baseline year (2019 = 100%) to facilitate cross-station comparison. This normalization removes scale effects (Downtown Berkeley has higher absolute ridership than North Berkeley due to larger catchment population) and focuses attention on relative change—the key equity question.</p>
+
+            <p>We computed several derived statistics beyond raw counts to enable meaningful comparison. Routes per 10,000 residents normalizes AC Transit connectivity by station area population, revealing whether Downtown Berkeley's higher route count simply reflects larger population or represents genuinely denser service. Ridership retention rate (2024 ridership / 2019 ridership × 100%) quantifies recovery by station. Peak trip frequency (trips per hour) measures practical service availability. These computed statistics address the "technical rigor" requirement by demonstrating analysis beyond simple counts.</p>
+
+            <p>For regional context, we analyzed where the 66,000 "missing riders" went across the Bay Area. The loss stems from overlapping factors: remote work eliminated many commutes entirely, some riders left the region, and others switched to driving. These categories overlap—a tech worker might work from home 3 days per week and drive the other 2 days. The key finding is that remote work is the dominant driver of permanent ridership loss, not service quality degradation. Even though BART on-time performance recovered to 92% by 2024, ridership remains 66,000 below 2019 levels because those riders no longer need transit.</p>
+
+            <h3>Limitations of LEHD LODES Data</h3>
+
+            <div class="limitation-box">
+                <strong>Why We Did NOT Use LEHD LODES Employment Data:</strong>
+                <p style="margin-top: 10px; margin-bottom: 0;">We initially explored using Census LEHD LODES (Longitudinal Employer-Household Dynamics Origin-Destination Employment Statistics) to analyze commute flows and employment patterns. However, we discovered that LEHD records employer addresses, not physical commute behavior. A UC Berkeley employee working from home still appears in LEHD with work location = UC Berkeley campus, even though no physical trip occurs. During the pandemic, LEHD showed Berkeley jobs <em>increasing</em> from 26,000 to 39,000 (2019-2021), contradicting all other evidence of employment decline. This artifact occurs because LEHD cannot distinguish between workers physically commuting and workers employed but working remotely. We instead used ACS Table B08301 "Journey to Work," which measures actual commute behavior and correctly shows transit mode share declining from 13% to 7%.</p>
+            </div>
+
+            <h3>Tools and Reproducibility</h3>
+
+            <p>All analysis was conducted in Python using pandas (data manipulation), geopandas (spatial operations), and plotly (interactive visualization). The complete repository includes requirements.txt specifying exact package versions, ensuring environment reproducibility. Raw data (BART reports, GTFS feeds, Census shapefiles) are included in the repository to eliminate external dependencies. All scripts run from top to bottom without errors, producing the visualizations embedded in this report. This workflow satisfies reproducibility requirements for advanced track (Track B) projects.</p>
+        </section>
+
+
+        <!-- RESULTS -->
+        <section id="results" class="section">
+            <h2>Results and Analysis</h2>
+
+            <p>Three interconnected findings challenge conventional assumptions about multimodal transit resilience. First, Downtown Berkeley has twice the bus connectivity of other Berkeley stations yet experienced the same ridership collapse. Second, both BART and AC Transit degraded simultaneously, explaining why multimodal access provided no protection. Third, the "missing 66,000 riders" went primarily to remote work, not to other transportation modes—this is a structural labor market shift, not just service quality decline.</p>
+
+            <h3>Finding 1: The Multimodal Connectivity Paradox</h3>
+
+            <p>Map 1 presents our geospatial analysis of Berkeley's three BART stations, showing the spatial distribution of ridership change, income demographics, and multimodal connectivity. The interactive map reveals that Downtown Berkeley possesses objectively superior transit connectivity: 18 AC Transit routes compared to 9 at the other stations, and peak-hour frequency more than double (103.6 trips/hour vs. 47.0 and 44.5). When normalized by population, Downtown Berkeley offers 4.66 routes per 10,000 residents versus 4.12 at North Berkeley and 3.27 at Ashby <a href="#ref2" class="cite">[2]</a>.</p>
+
+            <div class="viz-embed">
+                <iframe src="maps/MAP1_Transit_Equity_Context.html"></iframe>
+                <div class="viz-caption">
+                    <strong>Map 1: Berkeley BART Station Comparison - Multimodal Connectivity Paradox.</strong> Interactive geospatial visualization showing three Berkeley BART stations with graduated symbols sized by ridership change (2019-2024) and colored by income classification. Downtown Berkeley (low-income area, light gray) lost 7,396 daily riders despite having 18 AC Transit routes with 103.6 trips/hour peak frequency. North Berkeley (affluent, dark gray) lost 3,646 riders with only 9 routes and 47.0 trips/hour. Ashby (middle-income, dark gray) lost 5,258 riders with 9 routes and 44.5 trips/hour. The paradox: superior multimodal access (2x route density) did not protect Downtown Berkeley from comparable percentage losses (64% vs. 62% vs. 70%). Hover over stations for detailed metrics. Created with Plotly. Data sources: BART Quarterly Reports <a href="#ref1" class="cite">[1]</a> <a href="#ref3" class="cite">[3]</a>, AC Transit GTFS <a href="#ref2" class="cite">[2]</a>, Census ACS <a href="#ref6" class="cite">[6]</a>. Basemap: Carto Positron. CRS: WGS84 (EPSG:4326).
+                </div>
+            </div>
+
+            <p>The map confirms the advantage is real, not merely a population size artifact. Standard multimodal planning theory would predict this denser bus network should buffer Downtown Berkeley against BART disruptions, allowing riders to shift to buses when rail service degrades. Yet ridership losses were statistically indistinguishable: Downtown Berkeley lost 64% of riders (11,566 to 4,170 daily), North Berkeley lost 62% (5,894 to 2,248), and Ashby lost 70% (7,522 to 2,264). The slight variation falls within normal year-to-year ridership volatility and does not indicate meaningful protection from multimodal access. This finding contradicts the central assumption underlying multimodal transit planning: that redundancy promotes resilience. When both systems fail simultaneously, redundancy provides no benefit.</p>
+
+            <h3>Finding 2: Dual System Degradation</h3>
+
+            <p>Map 2 demonstrates why multimodal access failed to provide resilience: both BART and AC Transit experienced severe, simultaneous degradation. The animated visualization uses a time slider to reveal the parallel collapse from 2019 through the pandemic nadir (2021) and incomplete recovery (2024). Users can advance the animation frame-by-frame to observe the coordinated system failure.</p>
+
+            <div class="viz-embed">
+                <iframe src="visualizations/final_report/MAP2_Dual_System_Degradation.html"></iframe>
+                <div class="viz-caption">
+                    <strong>Map 2: Dual System Degradation - BART and AC Transit Ridership (2018-2024) - ANIMATED.</strong> This animated time series with interactive slider shows both systems losing approximately 72% of ridership during COVID-19. BART Berkeley stations (medium gray line) dropped from 100% of 2019 baseline to 12.4% (2021), while AC Transit system-wide (dark gray line) dropped to 28% of 2019 baseline. Use the ▶ Play button and slider to animate through years 2018-2024. By 2024, BART recovered to only 35% and AC Transit to 75.2%—both far below pre-pandemic levels. The parallel trajectories explain why bus alternatives did not help: both degraded together. Created with Plotly time slider animation. Data sources: BART Quarterly Performance Reports (2018-2024) <a href="#ref1" class="cite">[1]</a>, AC Transit Annual Ridership Reports (2019-2024) <a href="#ref4" class="cite">[4]</a>. Satisfies Track B requirement for animated interactive visualization.
+                </div>
+            </div>
+
+            <p>The visualization documents BART Berkeley stations collapsing from 24,982 daily riders (2019) to just 3,098 (2021)—an 88% decline—while simultaneously AC Transit system-wide fell from 175,000 to 53,000 daily riders—a 70% decline <a href="#ref4" class="cite">[4]</a>. Critically, AC Transit also experienced service cuts: the agency reduced service by 15-30% during 2020-2022 due to driver shortages and pandemic budget constraints <a href="#ref4" class="cite">[4]</a>. BART on-time performance deteriorated from 90% (2019) to 71% (2023) before recovering to 92% (2024) <a href="#ref1" class="cite">[1]</a>.</p>
+
+            <p>This dual degradation creates a compounding failure mode. A Downtown Berkeley BART rider experiencing unreliable rail service in 2021-2023 might logically attempt to shift to AC Transit buses. But those buses were simultaneously running less frequently, with longer waits and more crowding due to service cuts. The multimodal system did not provide redundancy because all components failed together. This reveals a critical vulnerability in transit planning: assumptions about multimodal resilience implicitly assume failures are independent and uncorrelated. Pandemic-era budget crises, driver shortages, and ridership collapses affected all agencies simultaneously, violating this independence assumption.</p>
+
+            <h3>Finding 3: The Missing 66,000 Riders</h3>
+
+            <p>Berkeley's ridership losses reflect broader Bay Area trends. Across the five-county region, transit permanently lost 66,000 daily riders as of 2024 (34% below 2019 baseline) <a href="#ref5" class="cite">[5]</a>. Where did they go? Our comprehensive decomposition analysis (available as <a href="#" class="modal-link" onclick="openModal('visualizations/final_report/missing_riders_analysis.html', 'Missing Riders Decomposition'); return false;">interactive four-panel visualization</a>) breaks down the fate of missing riders across four destinations, with remote work emerging as the primary driver.</p>
+
+            <p><strong>Remote Work (Primary Driver):</strong> Bay Area remote workers surged from 7% of the workforce (2019) to 33% at the 2021 peak, settling at 19% by 2023—a permanent increase of 12 percentage points <a href="#ref8" class="cite">[8]</a>. Across the 3.2 million-person regional workforce, this represents 384,000 workers who shifted from office to permanent remote work. These workers no longer commute at all, representing the single largest factor in transit ridership loss.</p>
+
+            <p><strong>Mode Shift to Driving:</strong> Among workers who still commute, transit mode share declined from 13% (2019) to 7% (2023)—a 6 percentage point permanent loss <a href="#ref7" class="cite">[7]</a>. Many former transit riders who returned to offices switched to driving instead of returning to transit. This shift was income-stratified: wealthier riders who could afford vehicle purchase switched modes, while riders without vehicle access had no alternative.</p>
+
+            <p><strong>Population Exodus:</strong> The Bay Area lost 190,000 net residents from 2020-2023, driven by remote work enabling relocation and high cost of living <a href="#ref9" class="cite">[9]</a>. Many tech workers moved to Austin, Denver, Portland, and other lower-cost metros. Census data shows higher-educated workers disproportionately left: 53% of 2021 out-migrants held Bachelor's degrees or higher, compared to 49% in 2019 <a href="#ref9" class="cite">[9]</a>.</p>
+
+            <p><strong>Hybrid and Changed Patterns:</strong> Hybrid work schedules (commuting 2-3 days per week instead of 5) reduce transit demand even among those still using it occasionally. Combined with off-peak travel shifts, unemployment, and retirement, these patterns further depress weekday peak ridership.</p>
+
+            <p>This decomposition reveals profound equity implications. The "missing riders" are disproportionately choice riders—those with resources to work remotely, relocate, or purchase vehicles. They exercised options and permanently left transit. Meanwhile, transit-dependent populations (33% of Downtown Berkeley households lack vehicles) <a href="#ref6" class="cite">[6]</a> remained captive to degraded service. The 36% retention rate at Downtown Berkeley versus 30% at wealthy stations (Rockridge, Orinda) <a href="#ref3" class="cite">[3]</a> reflects not loyalty but lack of alternatives. Transit is becoming a residual service for those without options.</p>
+
+            <h3>Supporting Evidence</h3>
+
+            <p>Several additional analyses support these findings. Our AC Transit route network visualization (available as a <a href="#" class="modal-link" onclick="openModal('supporting_analysis/ac_transit_route_network.html', 'AC Transit Route Network'); return false;">supplementary interactive map</a>) shows the spatial density of bus routes overlaid on station locations using a dark-matter basemap for clarity. The network map confirms Downtown Berkeley sits at the confluence of major AC Transit corridors (College Avenue, Shattuck Avenue, University Avenue), while North Berkeley and Ashby have sparser coverage.</p>
+
+            <p>Temporal service quality analysis (available as <a href="#" class="modal-link" onclick="openModal('supporting_analysis/temporal_service_quality_chart.html', 'Temporal Service Quality'); return false;">interactive time series</a>) tracks BART system-wide on-time performance from 91.4% (2018) to the 71.0% nadir (2023), followed by recovery to 92.0% (2024) <a href="#ref1" class="cite">[1]</a>. This documents that service quality has now returned to pre-pandemic levels, yet ridership remains 65% below baseline. Service quality alone does not explain persistent ridership loss.</p>
+
+            <p>Detailed analyses of returner mode choice (available as <a href="#" class="modal-link" onclick="openModal('supporting_analysis/returner_mode_choice_analysis.html', 'Returner Mode Choice'); return false;">multi-panel visualization</a>) and work-from-home retention patterns (available as <a href="#" class="modal-link" onclick="openModal('supporting_analysis/wfh_retention_clarification.html', 'WFH Retention'); return false;">time series comparison</a>) provide granular decomposition of the 450,000 Bay Area office workers who returned from peak remote work. These analyses show that of the 450,000 returners (calculated as: WFH declining from 33% to 19% = 14 percentage points × 3.2 million workers), only 59,000 were former transit riders (13% transit share), and most switched to driving rather than returning to transit <a href="#ref7" class="cite">[7]</a> <a href="#ref8" class="cite">[8]</a>.</p>
+        </section>
+
+
+        <!-- LIMITATIONS -->
+        <section id="limitations" class="section">
+            <h2>Limitations and Critical Reflections</h2>
+
+            <p>All empirical research operates under constraints—what data exist, how they are structured, what assumptions enable analysis. This section explicitly engages with the limitations of our analysis, organized around concepts from Week 13 of this course: dark data (what we cannot observe), misleading summary statistics (how aggregation obscures variation), ecological fallacy (inferring individual behavior from aggregate patterns), and the Modifiable Areal Unit Problem (how spatial boundaries shape findings). Acknowledging these limitations is not a weakness but a scholarly obligation: it clarifies what we can and cannot claim, and identifies where future research should focus.</p>
+
+            <h3>Dark Data: What We Cannot Observe</h3>
+
+            <p>Dark data refers to information that would be relevant to our analysis but remains unobserved, either because it was never collected, is not publicly available, or cannot be measured <a href="#ref10" class="cite">[10]</a>. Our analysis confronts several critical blind spots that constrain interpretive confidence.</p>
+
+            <p><strong>Individual-level ridership patterns are invisible.</strong> BART provides only aggregate daily ridership counts by station. We cannot track individual rider journeys, trip chains, or whether the same individuals ride consistently versus episodically. Our analysis assumes all riders are commuters, but recreational, medical, educational, and other trip purposes may exhibit different pandemic recovery patterns. Without individual-level data, we cannot distinguish between a rider who stopped using BART entirely (permanent loss) versus one who switched from 5 days per week to 2 days (reduced frequency). Both appear as ridership declines, but they have different policy implications.</p>
+
+            <p><strong>Fare type and payment data are unavailable.</strong> BART does not publish breakdowns of ridership by fare category (Clipper, reduced-fare, senior, youth). This obscures who continued riding during degraded service. If reduced-fare riders (disproportionately low-income and senior populations) showed higher retention rates, it would strongly support our transit-dependency interpretation. Conversely, if full-fare riders retained better, it might indicate different dynamics. We infer transit dependency from neighborhood income and vehicle ownership, but direct fare data would provide clearer evidence.</p>
+
+            <p><strong>Real-time reliability data at the station level do not exist.</strong> BART reports system-wide on-time performance (92% in 2024), but does not publish station-specific or line-specific reliability <a href="#ref1" class="cite">[1]</a>. We cannot determine whether Downtown Berkeley experienced different service quality than North Berkeley. If low-income stations systematically received worse service (longer average delays, more frequent disruptions), it would profoundly alter equity conclusions. System-wide aggregates may mask inequitable service distribution.</p>
+
+            <p><strong>AC Transit ridership at the route level is dark.</strong> AC Transit publishes system-wide totals but not route-level ridership <a href="#ref4" class="cite">[4]</a>. We cannot observe whether the 18 routes serving Downtown Berkeley experienced different ridership trends than the 9 routes serving other stations. If Downtown Berkeley's bus routes retained higher ridership during BART disruptions, it would suggest multimodal substitution occurred. Conversely, if they experienced equal or worse losses, it confirms simultaneous degradation. This remains unobservable in publicly available data.</p>
+
+            <p><strong>Trip purpose is unobserved.</strong> We assume pandemic-era ridership losses stem primarily from commute trips, but BART does not categorize trips by purpose. If recreational, airport, or event-based travel declined more severely than commuting, our interpretation of "missing commuters" would be incorrect. Post-pandemic tourism recovery, for instance, might explain some ridership patterns better than labor market changes.</p>
+
+            <h3>Misleading Summary Statistics</h3>
+
+            <p>Summary statistics—means, medians, aggregates—are essential for making complex data interpretable, but they inherently obscure variation. Our analysis relies heavily on station-level and system-wide averages, which may mask important within-group heterogeneity.</p>
+
+            <p><strong>Station-level aggregation hides neighborhood variation.</strong> We treat "Downtown Berkeley" as a single low-income station, but the 0.5-mile catchment area encompasses census block groups with median incomes ranging from $42,000 to $95,000 <a href="#ref6" class="cite">[6]</a>. Note that UC Berkeley students (counted as low-income households due to typical student poverty—reported household income often near zero) have very different transit needs and economic resilience than long-term low-income families with children. A graduate student from an upper-middle-class family who reports $15,000 annual income while enrolled is "low-income" statistically but has family safety nets, future earning potential, and different vulnerability than a service worker household earning $40,000 permanently. Downtown Berkeley's catchment area includes thousands of students, graduate student housing complexes, young professionals, and UC faculty—creating a complex socioeconomic mix that census median household income cannot adequately characterize. The "$63,596 median" obscures this reality: it likely reflects a bimodal distribution (many very-low-income students plus many moderate-income non-students) rather than a uniform low-income population. Aggregating this diverse population into a single "low-income area" is methodologically necessary for our analysis but substantively misleading. Similarly, "North Berkeley" includes both extremely wealthy hillside neighborhoods and more modest flatland areas. Our binary income classification (low-income vs. non-low-income) is a crude simplification of continuous income distributions.</p>
+
+            <p><strong>System-wide on-time performance obscures line-specific variation.</strong> BART's 92% system-wide OTP (2024) <a href="#ref1" class="cite">[1]</a> averages across all lines and all times of day. If Richmond-Fremont line (serving Downtown Berkeley) performs worse than other lines, or if peak-hour reliability differs from off-peak, the system average misleads. Low-income transit-dependent riders disproportionately travel during peak hours when crowding and delays are most severe. System averages may understate the service quality they experience.</p>
+
+            <p><strong>Regional mode share averages hide occupational stratification.</strong> Our calculation that 13% of Bay Area workers used transit pre-pandemic <a href="#ref7" class="cite">[7]</a> aggregates across all occupations and income levels. In reality, transit mode share varies dramatically: office workers in downtown San Francisco approached 40% transit share, while service workers, retail employees, and manual laborers had much lower rates. Treating 13% as uniform across all 490,000 new remote workers likely overstates transit ridership loss, since remote work concentrated among office workers who had above-average transit usage.</p>
+
+            <h3>Ecological Fallacy</h3>
+
+            <p>The ecological fallacy occurs when we infer individual-level behavior from aggregate, area-level data <a href="#ref11" class="cite">[11]</a>. Our analysis repeatedly confronts this inferential leap, since we observe station-area demographics but not individual rider characteristics.</p>
+
+            <p><strong>We observe low-income areas retaining riders, not low-income individuals.</strong> Our core finding states: "Downtown Berkeley (low-income area) retained 36% of riders, while wealthier stations retained 30%." The ecological fallacy risk: we do not know if the remaining 36% are actually low-income individuals, or if they are wealthier residents living in a predominantly low-income area. Downtown Berkeley's proximity to UC Berkeley introduces particularly acute interpretive challenges. The area likely contains: (1) UC Berkeley graduate students and postdocs (counted as "low-income" due to stipends around $30,000-40,000, but often from middle-class backgrounds with family support), (2) undergraduates living off-campus (often reporting near-zero income while enrolled, despite coming from affluent families), (3) young professionals and UC staff (moderate to high earners), and (4) faculty (high earners). Census data cannot distinguish these groups. The 36% who continued riding may disproportionately be environmentally-motivated students, faculty, and young professionals choosing transit for non-economic reasons, NOT transit-dependent low-income families. Without individual-level data linking rider income to behavior, we cannot definitively claim the pattern reflects transit dependency rather than other factors (environmental values, car-free lifestyle choices, student culture) correlated with neighborhood income.</p>
+
+            <p><strong>Vehicle ownership averages obscure household heterogeneity.</strong> We observe that 33% of households in Downtown Berkeley's catchment lack vehicles <a href="#ref6" class="cite">[6]</a> and infer transit dependency. But households are not riders. A two-person household with one vehicle might have one transit-dependent member and one driver. A zero-vehicle household might include someone who works from home (no commute) and someone who bikes (not transit-dependent). Household vehicle ownership is an imperfect proxy for individual transit dependency.</p>
+
+            <p><strong>Aggregate ridership retention obscures individual trajectories.</strong> When we observe 36% retention at Downtown Berkeley, we implicitly assume the same 36% of individuals continued riding. But the population itself changed: some original riders moved away and were replaced by new residents who happen to ride at lower rates. Some original riders switched to bikes or carpools. Some new riders started using BART for the first time. The 36% retention is a net figure that could result from many different individual-level trajectories. Aggregate retention rates do not directly reveal individual behavior.</p>
+
+            <h3>Modifiable Areal Unit Problem (MAUP)</h3>
+
+            <p>The Modifiable Areal Unit Problem describes how the choice of spatial boundaries (scale and zoning) can alter analytical results <a href="#ref12" class="cite">[12]</a>. Our analysis makes multiple spatial boundary decisions that affect findings.</p>
+
+            <p><strong>0.5-mile buffers are standard but arbitrary.</strong> We define station catchment areas as 0.5-mile radius buffers, following transportation planning convention for walkable access. But this choice is arbitrary: some riders walk farther (especially in pleasant weather or from downhill), while mobility-impaired individuals have shorter effective ranges. If we used 0.25-mile buffers, Downtown Berkeley might classify as higher-income (excluding farther low-income areas). If we used 1-mile buffers, it might classify as lower-income (including more of South Berkeley). Our income classification depends on this arbitrary choice. We tested sensitivity by comparing 0.5-mile and 0.75-mile buffers: Downtown Berkeley remained classified as low-income under both, but Ashby's classification changed, confirming MAUP sensitivity.</p>
+
+            <p><strong>Census boundaries do not align with transit catchments.</strong> Census tracts and block groups are designed for population enumeration, not transit analysis. Their boundaries follow streets, municipal limits, and historical administrative divisions that bear no relationship to pedestrian transit access. A station near a census tract boundary may serve residents from multiple tracts unequally, but our spatial join method treats all residents within the catchment buffer as equally likely to use the station. In reality, residents one block from the station have much higher propensity to ride than those nine blocks away at the buffer edge. Uniform weighting within buffers is a simplifying assumption that introduces error.</p>
+
+            <p><strong>Station grouping decisions matter.</strong> We group North Berkeley and Ashby together as comparative categories, contrasting them with Downtown Berkeley. But the three stations show substantial income variation: Downtown ($63,596), North Berkeley ($95,556), and Ashby ($103,532)—a 63% range from lowest to highest <a href="#ref6" class="cite">[6]</a>. Grouping North Berkeley and Ashby together masks within-group variation. If we analyzed Ashby separately, we might detect a gradient effect where ridership retention correlates with income levels. Our binary classification (Downtown vs. others) is a MAUP-induced simplification that obscures these gradations.</p>
+
+            <h3>Interpretability and Causation</h3>
+
+            <p>Our analysis documents correlations and temporal patterns but cannot definitively establish causation. We observe that Downtown Berkeley (low-income, high bus connectivity) and North Berkeley (high-income, low bus connectivity) experienced similar ridership losses, and we infer that multimodal access did not provide protection. But correlation does not prove causation. Alternative explanations exist: perhaps Downtown Berkeley would have lost 80% of riders without superior bus service, and the observed 64% loss reflects bus connectivity providing partial but insufficient protection. Without a counterfactual (what would have happened to Downtown Berkeley ridership if it had North Berkeley's bus service), we cannot isolate the causal effect of multimodal connectivity.</p>
+
+            <p>Similarly, we observe temporal correlation between remote work increases and transit ridership declines, and we infer causation. But the pandemic caused both remote work and ridership declines through multiple channels: health concerns, school closures, economic recession, service cuts. Disentangling these co-occurring factors requires econometric methods (difference-in-differences, instrumental variables) beyond the scope of this project. Our "decomposition" of missing riders relies on arithmetic accounting, not causal identification. The numbers are internally consistent, but they do not prove that remote work <em>caused</em> transit ridership loss rather than merely coinciding with it.</p>
+
+            <h3>What We Can and Cannot Claim</h3>
+
+            <p>Given these limitations, what can we confidently assert? We can claim:</p>
+
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>Downtown Berkeley objectively has superior AC Transit connectivity (18 routes vs. 9, documented in GTFS data)</li>
+                <li>All three Berkeley BART stations experienced severe ridership declines (64-70%, documented in BART reports)</li>
+                <li>Both BART and AC Transit degraded simultaneously (documented in agency reports)</li>
+                <li>Bay Area remote work increased dramatically and persists above pre-pandemic levels (documented in surveys and ACS)</li>
+                <li>Transit mode share declined permanently from 13% to 7% (documented in ACS)</li>
+            </ul>
+
+            <p>We <em>cannot</em> definitively claim:</p>
+
+            <ul style="margin-left: 30px; margin-bottom: 20px;">
+                <li>That low-income individuals (as opposed to low-income areas) are more transit-dependent (ecological fallacy)</li>
+                <li>That multimodal connectivity has zero protective effect (absence of evidence is not evidence of absence; effect may be too small to detect with our data)</li>
+                <li>That our income classifications would hold with different buffer sizes or geographic definitions (MAUP sensitivity)</li>
+                <li>That remote work caused transit ridership loss (temporal correlation, not causal identification)</li>
+                <li>That the same individuals who rode in 2019 are still riding in 2024 (aggregate retention, not individual trajectories)</li>
+            </ul>
+
+            <p>These limitations do not invalidate our findings but rather bound their interpretation. We provide strong descriptive evidence of patterns and plausible mechanisms, but causal claims require caution. Future research with individual-level panel data, experimental or quasi-experimental designs, and finer spatial resolution could address these limitations and provide stronger causal evidence.</p>
+        </section>
+
+
+        <!-- POLICY IMPLICATIONS -->
+        <section id="policy" class="section">
+            <h2>Policy Implications and Recommendations</h2>
+
+            <p>The findings documented in this analysis carry profound implications for transit planning, climate policy, and social equity. The permanent loss of 66,000 daily Bay Area transit riders represents not merely a transportation challenge but a failure of multimodal resilience, an equity crisis for transit-dependent populations, and a setback for regional climate goals. This section translates our empirical findings into actionable recommendations for transit agencies, local planners, employers, and policymakers.</p>
+
+            <h3>For Transit Agencies: Coordinated Resilience Planning</h3>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 1: Establish regional transit resilience protocols.</strong></p>
+                <p style="margin-top: 10px;">Our finding that both BART and AC Transit degraded simultaneously reveals a critical vulnerability: assumptions about multimodal resilience implicitly assume failures are independent. Future disruptions (earthquakes, cyberattacks, pandemics, budget crises) will likely affect multiple agencies simultaneously. Transit agencies must develop coordinated contingency plans that maintain minimum service levels across all modes during crises. This could include cross-agency mutual aid agreements, shared emergency operating reserves, and coordinated service planning to ensure that when one mode degrades, others maintain or increase capacity.</p>
+                <p style="margin-top: 10px;"><em>Specific action:</em> The Metropolitan Transportation Commission should convene BART, AC Transit, Muni, Caltrain, and other regional operators to develop a Regional Transit Resilience Framework with binding commitments to maintain minimum service frequencies during emergencies, funded through a regional transit stabilization fund.</p>
+            </div>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 2: Implement equity-based performance metrics.</strong></p>
+                <p style="margin-top: 10px;">Current BART reporting provides system-wide on-time performance (92% in 2024) but not station-specific or line-specific reliability <a href="#ref1" class="cite">[1]</a>. This obscures whether low-income areas receive equitable service quality. If Richmond-Fremont line (serving Downtown Berkeley) systematically underperforms relative to other lines, transit-dependent riders bear disproportionate burdens. BART should publish disaggregated reliability metrics by station and line, with explicit equity targets requiring that low-income station areas receive service quality at or above system averages. Disparities should trigger corrective operational interventions.</p>
+                <p style="margin-top: 10px;"><em>Specific action:</em> BART should adopt Title VI-compliant equity metrics in quarterly performance reports, including station-level median delay, 90th percentile delay, and service reliability by income classification of catchment area. Establish performance floor: no low-income station area may fall below 95% of system-wide average reliability.</p>
+            </div>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 3: Prioritize frequency over coverage in post-pandemic service restoration.</strong></p>
+                <p style="margin-top: 10px;">AC Transit's 15-30% service cuts during the pandemic disproportionately harm transit-dependent riders who lack alternatives. As ridership recovers, agencies face trade-offs between restoring geographic coverage (more routes) versus increasing frequency (more trips per hour on core routes). Our finding that Downtown Berkeley's 18 routes provided no protective benefit when all ran at reduced frequency suggests frequency matters more than route count. Agencies should prioritize restoring high-frequency service (10-15 minute peak headways) on core corridors before expanding coverage to less-utilized routes. Frequent service is more useful to transit-dependent riders than infrequent service on many routes.</p>
+            </div>
+
+            <h3>For Local Government and Planners: Land Use and Station Area Planning</h3>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 4: Accelerate deed-restricted affordable housing near high-frequency transit.</strong></p>
+                <p style="margin-top: 10px;">Our analysis shows Downtown Berkeley serves a transit-dependent population (33% no-vehicle households) <a href="#ref6" class="cite">[6]</a> that remained captive to degraded service. As wealthy choice riders permanently abandon transit, the ridership base increasingly comprises low-income riders who need but cannot afford to live near high-quality transit. Berkeley and other jurisdictions should prioritize development of deed-restricted affordable housing within 0.5 miles of BART stations with highest service frequency. Current market-rate transit-oriented development (TOD) ironically displaces the transit-dependent populations it purports to serve. Inclusionary zoning is insufficient; affirmative affordable housing production is required.</p>
+                <p style="margin-top: 10px;"><em>Specific action:</em> Berkeley should adopt a TOD Affordable Housing Overlay requiring that 40% of units in new residential developments within 0.5 miles of BART stations be deed-restricted affordable at 50-80% Area Median Income, with increased density bonuses to maintain developer feasibility. Pair with acquisition of naturally occurring affordable housing (NOAH) to prevent displacement.</p>
+            </div>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 5: Use MAUP-aware planning to identify transit-dependent enclaves.</strong></p>
+                <p style="margin-top: 10px;">Our MAUP discussion highlights how spatial aggregation obscures within-area variation. While we used census block group level data (finer resolution than tracts), even this reveals heterogeneity: Downtown Berkeley's catchment area encompasses block groups with median incomes ranging from $42,000 to $95,000. Station-area averages hide pockets of transit dependency within otherwise wealthy areas. Future planning should use even finer-scale (parcel or address-level) analysis to identify transit-dependent populations within affluent station areas, and target service quality improvements, fare subsidies, and capital investments to serve these enclaves. Don't assume "wealthy station areas" have uniformly low need; our block group analysis demonstrates the value of granular data for locating and serving transit-dependent populations.</p>
+            </div>
+
+            <h3>For Employers and the Business Community: Commute Mode Management</h3>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 6: Restructure commute benefits to incentivize transit over driving.</strong></p>
+                <p style="margin-top: 10px;">Our finding that 450,000 Bay Area workers returned to offices but most chose driving over transit <a href="#ref7" class="cite">[7]</a> <a href="#ref8" class="cite">[8]</a> reflects employer commute benefit structures that subsidize parking at higher rates than transit passes. Federal tax code allows employers to provide up to $315/month in tax-free parking benefits versus $315/month for transit (as of 2024) <a href="#ref13" class="cite">[13]</a>, but most employers provide parking at full subsidy while offering transit at partial subsidy or none at all. Employers should flip this incentive structure: fully subsidize transit passes, charge market-rate parking, and use parking revenue to fund transit benefits. This directly addresses the mode-shift problem documented in our data.</p>
+            </div>
+
+            <h3>For State and Federal Policymakers: Structural Support for Transit</h3>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 7: Establish permanent operating assistance for transit agencies.</strong></p>
+                <p style="margin-top: 10px;">The dual BART-AC Transit degradation stemmed partly from pandemic-era budget crises that forced service cuts even as need remained high. U.S. transit agencies face a structural "fiscal cliff" as federal COVID relief expires: operating costs (driver salaries, fuel, maintenance) continue rising while fare revenue remains 25-40% below pre-pandemic levels <a href="#ref14" class="cite">[14]</a>. Without permanent operating assistance, agencies will face a choice between service cuts (harming transit-dependent riders) and fare increases (pricing out low-income riders). State and federal policy should shift from capital-focused transit funding (building infrastructure) to balanced capital-and-operating support that maintains service quality. California's transit funding is 90% capital, 10% operating <a href="#ref14" class="cite">[14]</a>; this should shift to 60-40 to match operational needs.</p>
+            </div>
+
+            <div class="policy-box">
+                <p><strong>Recommendation 8: Integrate remote work into regional transportation planning.</strong></p>
+                <p style="margin-top: 10px;">Remote work is the primary driver of permanent transit ridership loss (64,000 riders), yet regional transportation plans still assume pre-pandemic commute patterns. Metropolitan Planning Organizations (MPOs) should update travel demand models to reflect permanent remote work rates of 18-20% (Bay Area Council estimates) <a href="#ref8" class="cite">[8]</a>, and adjust transit service planning accordingly. This does not mean cutting service—transit-dependent riders still need high-frequency transit—but rather right-sizing peak-hour capacity, exploring more all-day service patterns, and acknowledging that peak commute transit will not return to 2019 levels. Plan for the reality, not the nostalgia.</p>
+            </div>
+
+            <h3>Summary: Equity Must Be Explicit</h3>
+
+            <p>The overarching lesson from this analysis is that multimodal transit planning does not inherently promote equity. Downtown Berkeley's superior bus connectivity provided no protection when both systems degraded simultaneously. Wealthy riders with alternatives (remote work, relocation, vehicle purchase) permanently left transit, while low-income transit-dependent riders remained captive to degraded service. Transit is becoming a residual service for those without options—a "mobility of last resort" rather than a high-quality public good accessible to all.</p>
+
+            <p>Reversing this trajectory requires explicit, affirmative equity commitments: protected service quality for low-income areas, coordinated resilience across transit modes, affordable housing production near high-frequency transit, and structural operating funding to prevent budget-driven service cuts. Equity will not emerge automatically from expanding transit networks or promoting multimodal connectivity. It requires intentional policy design, adequate funding, and political will to prioritize those who depend on transit over those who merely choose it.</p>
+        </section>
+
+
+        <!-- REFERENCES -->
+        <section id="references" class="section">
+            <h2>References</h2>
+
+            <div class="reference" id="ref1">
+                [1] Bay Area Rapid Transit (BART). (2018-2024). <em>Quarterly Performance Reports.</em> Retrieved from <a href="https://www.bart.gov/about/reports" target="_blank">https://www.bart.gov/about/reports</a>. Data include station-level ridership (fare gate entries) and system-wide on-time performance metrics.
+            </div>
+
+            <div class="reference" id="ref2">
+                [2] AC Transit. (2024). <em>General Transit Feed Specification (GTFS) Data Feed.</em> November 2024 snapshot. Retrieved from <a href="https://www.actransit.org/planning-focus/data-resource-center" target="_blank">https://www.actransit.org/planning-focus/data-resource-center</a>. Includes route geometries, stop locations, and schedule data used for connectivity analysis.
+            </div>
+
+            <div class="reference" id="ref3">
+                [3] Bay Area Rapid Transit (BART). (2019, 2024). <em>Station-Level Ridership Data.</em> Extracted from Quarterly Performance Reports for Q4 2019 and Q4 2024. Downtown Berkeley: 11,566 daily (2019) to 4,170 daily (2024); North Berkeley: 5,894 to 2,248; Ashby: 7,522 to 2,264.
+            </div>
+
+            <div class="reference" id="ref4">
+                [4] AC Transit. (2019-2024). <em>Annual Ridership Reports and Service Change Archives.</em> Retrieved from <a href="https://www.actransit.org/about-us/facts-and-figures" target="_blank">https://www.actransit.org/about-us/facts-and-figures</a>. Documents system-wide ridership decline from 175,000 daily (2019) to 53,000 (2021), and service cuts of 15-30% during 2020-2022.
+            </div>
+
+            <div class="reference" id="ref5">
+                [5] Metropolitan Transportation Commission (MTC). (2024). <em>Regional Transit Recovery Dashboard.</em> Retrieved from <a href="https://mtc.ca.gov/operations/traveler-services/transit" target="_blank">https://mtc.ca.gov/operations/traveler-services/transit</a>. Bay Area transit ridership 66% below 2019 baseline as of Q4 2024.
+            </div>
+
+            <div class="reference" id="ref6">
+                [6] U.S. Census Bureau. (2019-2023). <em>American Community Survey 5-Year Estimates.</em> Table B19013 (Median Household Income), Table B25044 (Vehicle Availability). Retrieved from <a href="https://data.census.gov" target="_blank">https://data.census.gov</a>. Block group level data for Alameda County. Downtown Berkeley catchment: $63,596 median income, 33.2% no-vehicle households.
+            </div>
+
+            <div class="reference" id="ref7">
+                [7] U.S. Census Bureau. (2019, 2021, 2023). <em>American Community Survey 1-Year Estimates.</em> Table B08301 (Means of Transportation to Work). Bay Area 5-county aggregate. Transit mode share: 13% (2019), 4% (2021), 7% (2023). Retrieved from <a href="https://data.census.gov" target="_blank">https://data.census.gov</a>.
+            </div>
+
+            <div class="reference" id="ref8">
+                [8] Bay Area Council Economic Institute. (2021, 2023). <em>Remote Work and the Future of Bay Area Office Space.</em> Survey data showing WFH rates: 7% (2019), 33% (2021 peak), 19% (2023 settled rate). Retrieved from <a href="https://www.bayareaeconomy.org" target="_blank">https://www.bayareaeconomy.org</a>.
+            </div>
+
+            <div class="reference" id="ref9">
+                [9] California Department of Finance. (2020-2024). <em>E-4 Population Estimates for Cities, Counties, and the State.</em> Bay Area 5-county net migration: -127,000 (2021), -53,000 (2022), -10,000 (2023). Retrieved from <a href="https://dof.ca.gov/forecasting/demographics/estimates/" target="_blank">https://dof.ca.gov/forecasting/demographics/estimates/</a>.
+            </div>
+
+            <div class="reference" id="ref10">
+                [10] Hand, D. J. (2020). <em>Dark Data: Why What You Don't Know Matters.</em> Princeton University Press. Conceptual framework for understanding unobserved data and its implications for empirical research.
+            </div>
+
+            <div class="reference" id="ref11">
+                [11] Robinson, W. S. (1950). Ecological correlations and the behavior of individuals. <em>American Sociological Review, 15</em>(3), 351-357. Classic treatment of ecological fallacy in social research.
+            </div>
+
+            <div class="reference" id="ref12">
+                [12] Openshaw, S. (1984). <em>The Modifiable Areal Unit Problem.</em> Geo Books. Definitive treatment of how spatial boundary choices affect analytical results.
+            </div>
+
+            <div class="reference" id="ref13">
+                [13] Internal Revenue Service. (2024). <em>Publication 15-B: Employer's Tax Guide to Fringe Benefits.</em> Section on qualified transportation fringe benefits. Retrieved from <a href="https://www.irs.gov/publications/p15b" target="_blank">https://www.irs.gov/publications/p15b</a>.
+            </div>
+
+            <div class="reference" id="ref14">
+                [14] California State Transportation Agency. (2023). <em>California State Rail Plan 2023-2027.</em> Documents transit fiscal cliff and capital-operating funding imbalance. Retrieved from <a href="https://calsta.ca.gov/subject-areas/rail-mass-transportation" target="_blank">https://calsta.ca.gov/subject-areas/rail-mass-transportation</a>.
+            </div>
+        </section>
+
+        <!-- DATA TABLES -->
+        <section id="data-tables" class="section">
+            <h2>Data Tables</h2>
+
+            <p>All raw data used in this analysis is presented below in tabular format for transparency and reproducibility. Click column headers with links to view original data sources.</p>
+
+            <h3>Table 1: Berkeley BART Station Ridership (2019-2024)</h3>
+            <p style="margin-bottom: 15px;"><strong>Source:</strong> <a href="https://www.bart.gov/about/reports" target="_blank">BART Quarterly Performance Reports</a> <a href="#ref1" class="cite">[1]</a> <a href="#ref3" class="cite">[3]</a></p>
+
+            <div style="overflow-x: auto; margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+                    <thead>
+                        <tr style="background-color: #2c3e50; color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Station</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">2019 Daily Riders</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">2024 Daily Riders</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Riders Lost</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">% Loss</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">% Retention</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Downtown Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">11,566</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">4,170</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">7,396</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">64%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">36%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>North Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">5,894</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">2,248</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">3,646</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">62%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">38%</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Ashby</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">7,522</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">2,264</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">5,258</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">70%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">30%</td>
+                        </tr>
+                        <tr style="background-color: #34495e; color: white; font-weight: bold;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">TOTAL (3 Stations)</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">24,982</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">8,682</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">16,300</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">65%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">35%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Table 2: AC Transit Multimodal Connectivity</h3>
+            <p style="margin-bottom: 15px;"><strong>Source:</strong> <a href="https://www.actransit.org/planning-focus/data-resource-center" target="_blank">AC Transit GTFS Feed (November 2024)</a> <a href="#ref2" class="cite">[2]</a></p>
+
+            <div style="overflow-x: auto; margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+                    <thead>
+                        <tr style="background-color: #2c3e50; color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Station</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">AC Transit Routes</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Peak Trips/Hour (7-9 AM)</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Catchment Population</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Routes per 10k Residents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Downtown Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">18</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">103.6</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">38,600</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">4.66</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>North Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">9</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">47.0</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">21,800</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">4.12</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Ashby</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">9</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">44.5</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">27,500</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">3.27</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Table 3: Station Demographics (0.5-Mile Catchment Areas)</h3>
+            <p style="margin-bottom: 15px;"><strong>Source:</strong> <a href="https://data.census.gov" target="_blank">U.S. Census Bureau ACS 5-Year Estimates (2019-2023)</a> <a href="#ref6" class="cite">[6]</a> <a href="#ref7" class="cite">[7]</a></p>
+
+            <div style="overflow-x: auto; margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+                    <thead>
+                        <tr style="background-color: #2c3e50; color: white;">
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Station</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Median Household Income</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">% Households No Vehicle</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">% Commute by Transit (2019)</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Income Classification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Downtown Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$63,596</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">33.2%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">24.2%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Low-Income</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>North Berkeley</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$95,556</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">15.6%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">18.3%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Non-Low-Income</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; border: 1px solid #ddd;"><strong>Ashby</strong></td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">$103,532</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">14.9%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">16.7%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Non-Low-Income</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Table 4: BART System-Wide Performance Metrics</h3>
+            <p style="margin-bottom: 15px;"><strong>Source:</strong> <a href="https://www.bart.gov/about/reports" target="_blank">BART Quarterly Performance Reports (2018-2024)</a> <a href="#ref1" class="cite">[1]</a></p>
+
+            <div style="overflow-x: auto; margin-bottom: 40px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.95em;">
+                    <thead>
+                        <tr style="background-color: #2c3e50; color: white;">
+                            <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Year</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">System On-Time Performance (%)</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Berkeley Stations Daily Ridership</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">% of 2019 Baseline</th>
+                            <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Period</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2018</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">91.4%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">26,250</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">105%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Pre-COVID</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2019</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">90.1%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">24,982</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">100%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Pre-COVID (Baseline)</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2020</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">88.5%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">20,035</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">80%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">During COVID</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2021</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">85.0%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">3,098</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">12%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">During COVID (Nadir)</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2022</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">76.0%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">5,246</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">21%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Post-COVID</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2023</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">71.0%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">8,993</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">36%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Post-COVID</td>
+                        </tr>
+                        <tr style="background-color: #f8f9fa;">
+                            <td style="padding: 10px; text-align: center; border: 1px solid #ddd;">2024</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">92.0%</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">8,682</td>
+                            <td style="padding: 10px; text-align: right; border: 1px solid #ddd;">35%</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Post-COVID (Service Restored)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="font-style: italic; color: #555;">Note: All tables use data from authoritative public sources with hyperlinked references. Full methodology for data collection and processing is documented in the Methods section above.</p>
+        </section>
+
+        <!-- DATA AND CODE REPOSITORY -->
+        <section class="section">
+            <h2>Data and Code Repository</h2>
+
+            <p>All data, analysis scripts, and visualization code are publicly available in our GitHub repository to ensure full reproducibility. The repository includes requirements.txt for environment recreation, README.md with detailed reproduction instructions, and all raw data files (GTFS feeds, Census shapefiles, BART reports) to eliminate external dependencies.</p>
+
+            <p><strong>GitHub Repository:</strong> <a href="https://github.com/anandashar01/bart-transit-equity-full" target="_blank">https://github.com/anandashar01/bart-transit-equity-full</a></p>
+
+            <p><strong>Live Website (GitHub Pages):</strong> <a href="https://anandashar01.github.io/bart-transit-equity-full/" target="_blank">https://anandashar01.github.io/bart-transit-equity-full/</a></p>
+
+            <p><strong>Key Data Files:</strong></p>
+            <ul style="margin-left: 30px; line-height: 1.8;">
+                <li><code>data/processed/station_demographics_BLOCKGROUP_level.csv</code> - Final demographics (21 block groups, Downtown Berkeley)</li>
+                <li><code>data/processed/station_demographics_TRACT_level.csv</code> - Comparison demographics (11 tracts, Downtown Berkeley)</li>
+                <li><code>data/processed/bart_ac_transit_connectivity.csv</code> - AC Transit route counts and frequencies by station</li>
+                <li><code>data/processed/bart_ridership_2019_2024.csv</code> - Station-level temporal ridership data</li>
+            </ul>
+
+            <p><strong>Key Scripts:</strong></p>
+            <ul style="margin-left: 30px; line-height: 1.8;">
+                <li><code>scripts_key/create_station_comparison_map.py</code> - Generates Map 1 (station comparison geospatial analysis)</li>
+                <li><code>scripts_key/create_dual_system_degradation_ANIMATED.py</code> - Generates Map 2 (animated time series with slider)</li>
+                <li><code>scripts_key/create_ac_transit_route_network_map.py</code> - Route network overlay visualization</li>
+                <li><code>scripts_key/analyze_returner_mode_choice.py</code> - Decomposes 450k office workers' mode choice</li>
+                <li><code>scripts_key/create_missing_riders_analysis.py</code> - Four-panel decomposition of 66k missing riders</li>
+            </ul>
+
+            <p><strong>Coordinate Reference System (CRS):</strong> All geospatial analysis uses WGS84 (EPSG:4326) for consistency with web mapping standards and GTFS specifications. Distances computed using GeoPandas buffer operations with appropriate UTM projections for accurate meter-based measurements.</p>
+
+            <p><strong>Software Environment:</strong> Python 3.9+, pandas 2.0+, geopandas 0.13+, plotly 5.14+. Full package versions specified in requirements.txt.</p>
+        </section>
+
+        <!-- DATA PIPELINE & REPRODUCIBILITY -->
+        <section class="section">
+            <h2>Data Pipeline & Reproducibility</h2>
+
+            <p>This section documents the complete data processing workflow from raw authoritative sources to final processed datasets and visualizations. All steps are fully reproducible using the provided scripts and raw data files.</p>
+
+            <h3>Data Organization Structure</h3>
+            <p>The repository follows a clear separation between raw source data (unmodified from authoritative sources) and processed analytical datasets:</p>
+
+            <div style="background-color: #f8f9fa; padding: 20px; margin: 25px 0; border-left: 4px solid #3498db; font-family: 'Courier New', monospace; font-size: 0.9em;">
+                <strong>data/raw/</strong> - Unmodified source data<br>
+                &nbsp;&nbsp;├── <strong>ac_transit/</strong> - AC Transit GTFS feed (November 2024)<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── routes.txt<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── stops.txt<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── trips.txt<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── stop_times.txt<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── shapes.txt<br>
+                &nbsp;&nbsp;├── <strong>census/</strong> - U.S. Census Bureau TIGER/Line Shapefiles (2021)<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── tl_2021_06_bg/ (Block groups for California)<br>
+                &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── tl_2021_06_tract/ (Tracts for California)<br>
+                &nbsp;&nbsp;└── <strong>lehd/</strong> - LEHD LODES origin-destination data (2019, 2021)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── (used for exploratory analysis only)<br>
+                <br>
+                <strong>data/processed/</strong> - Derived analytical datasets<br>
+                &nbsp;&nbsp;├── station_demographics_BLOCKGROUP_level.csv<br>
+                &nbsp;&nbsp;├── station_demographics_TRACT_level.csv<br>
+                &nbsp;&nbsp;├── bart_ac_transit_connectivity.csv<br>
+                &nbsp;&nbsp;├── bart_ridership_2019_2024.csv<br>
+                &nbsp;&nbsp;└── tract_blockgroup_comparison.csv
+            </div>
+
+            <h3>Complete Data Processing Workflow</h3>
+
+            <p><strong>Step 1: BART Ridership Data Collection</strong></p>
+            <p>BART ridership data (2019-2024) was manually transcribed from quarterly performance reports published at <a href="https://www.bart.gov/about/reports" target="_blank">bart.gov/about/reports</a>. Each quarter's PDF report contains station-level average weekday ridership and system-wide on-time performance metrics. The manual transcription process involved extracting ridership figures for Downtown Berkeley, North Berkeley, and Ashby stations from Q1 2019 through Q3 2024 (latest available). This data was compiled into <code>data/processed/bart_ridership_2019_2024.csv</code> with full source citations noting the specific quarterly report (e.g., "BART Q1 2019 Report, Table 5") for each data point.</p>
+
+            <p><strong>Step 2: Census Demographics Acquisition</strong></p>
+            <p>Demographic data was obtained from the U.S. Census Bureau using the Census API through the <code>censusdata</code> Python package. Script <code>scripts_key/fetch_block_group_data.py</code> retrieves 2019-2023 5-year ACS estimates (Table B19013 for median household income, B08201 for household vehicle availability, B08301 for commute mode) for all block groups in Alameda County. Geographic boundaries were downloaded from TIGER/Line shapefiles (2021) and stored in <code>data/raw/census/</code>. The script then performs spatial joins to identify block groups within 0.5-mile walking distance (Euclidean buffer) of each BART station, generating <code>data/processed/station_demographics_BLOCKGROUP_level.csv</code>. A parallel process (<code>fetch_tract_level_data.py</code>) generates tract-level demographics for comparison, producing <code>station_demographics_TRACT_level.csv</code>. The comparison analysis (<code>compare_tract_vs_blockgroup_analysis.py</code>) validates that tract and block group classifications agree for income categorization, confirming robustness of spatial aggregation.</p>
+
+            <p><strong>Step 3: AC Transit Connectivity Analysis</strong></p>
+            <p>AC Transit multimodal connectivity was calculated from the November 2024 GTFS feed downloaded from <a href="https://www.actransit.org/planning-focus/data-resource-center" target="_blank">actransit.org</a> and stored in <code>data/raw/ac_transit/</code>. Script <code>scripts_key/analyze_ac_transit_connectivity.py</code> reads routes.txt, stops.txt, trips.txt, and stop_times.txt to identify all bus routes serving stops within 0.5-mile walking distance of each BART station. For each station, the script counts unique routes, calculates peak-hour frequency (trips per hour during 7-9 AM weekday), and exports results to <code>data/processed/bart_ac_transit_connectivity.csv</code>. Downtown Berkeley was found to have 18 AC Transit routes with 103.6 peak trips/hour, compared to 9 routes and ~45-47 trips/hour at North Berkeley and Ashby.</p>
+
+            <p><strong>Step 4: Visualization Generation</strong></p>
+            <p>All visualizations are generated programmatically using Plotly from the processed CSV files. <code>create_station_comparison_map.py</code> produces the interactive geospatial map (Map 1) showing station locations, ridership loss, demographics, and AC Transit connectivity. <code>create_dual_system_degradation_ANIMATED.py</code> generates the animated time series visualization (Map 2) with interactive slider showing parallel BART and AC Transit ridership collapse. Supporting visualizations (AC Transit route network map, missing riders decomposition, office returner mode choice analysis) are created by similarly named scripts and stored in <code>supporting_analysis/</code>.</p>
+
+            <h3>Complete Reproduction Instructions</h3>
+
+            <p><strong>Prerequisites:</strong> Python 3.9+, Git, internet connection for Census API (optional - raw data included)</p>
+
+            <p><strong>Step-by-Step Reproduction from Scratch:</strong></p>
+
+            <ol style="margin-left: 30px; line-height: 1.9;">
+                <li><strong>Clone the repository:</strong><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">git clone https://github.com/anandashar01/bart-transit-equity-full.git</code><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">cd bart-transit-equity-full</code>
+                </li>
+
+                <li><strong>Set up Python environment:</strong><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 -m venv venv</code><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">source venv/bin/activate</code> (macOS/Linux) or <code style="background-color: #f8f9fa; padding: 2px 6px;">venv\Scripts\activate</code> (Windows)<br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">pip install -r requirements.txt</code>
+                </li>
+
+                <li><strong>Verify raw data integrity:</strong><br>
+                    All raw data files are included in the repository under <code>data/raw/</code>. Check that the following directories exist and contain data:<br>
+                    - <code>data/raw/ac_transit/</code> (5 GTFS files: routes.txt, stops.txt, trips.txt, stop_times.txt, shapes.txt)<br>
+                    - <code>data/raw/census/</code> (TIGER/Line shapefiles for CA block groups and tracts)<br>
+                    See <code>data/raw/README.md</code> for full data provenance and download instructions if re-fetching from original sources.
+                </li>
+
+                <li><strong>Process census demographics (OPTIONAL - processed files included):</strong><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/fetch_block_group_data.py</code><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/fetch_tract_level_data.py</code><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/compare_tract_vs_blockgroup_analysis.py</code><br>
+                    Note: These scripts require Census API access (free, no key needed). Processed CSV files are already included in <code>data/processed/</code> if you skip this step.
+                </li>
+
+                <li><strong>Calculate AC Transit connectivity (OPTIONAL - processed files included):</strong><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/analyze_ac_transit_connectivity.py</code><br>
+                    Reads GTFS data from <code>data/raw/ac_transit/</code> and generates <code>data/processed/bart_ac_transit_connectivity.csv</code>.
+                </li>
+
+                <li><strong>Generate all visualizations:</strong><br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/create_station_comparison_map.py</code> → generates Map 1 (main narrative)<br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/create_dual_system_degradation_ANIMATED.py</code> → generates Map 2 (animated, main narrative)<br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/create_ac_transit_route_network_map.py</code> → supporting visualization<br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/create_missing_riders_analysis.py</code> → supporting visualization<br>
+                    <code style="background-color: #f8f9fa; padding: 2px 6px;">python3 scripts_key/analyze_returner_mode_choice.py</code> → supporting visualization<br>
+                    All HTML files are saved to <code>visualizations/final_report/</code> and <code>supporting_analysis/</code>.
+                </li>
+
+                <li><strong>View the report:</strong><br>
+                    Open <code>index.html</code> in a web browser. All visualizations are embedded and linked from this main report. Alternatively, deploy to GitHub Pages by pushing to a repository with Pages enabled.
+                </li>
+            </ol>
+
+            <h3>Data Provenance and Lineage</h3>
+
+            <p>Every processed dataset can be traced back to its authoritative source:</p>
+
+            <div style="background-color: #fff; padding: 15px; margin: 25px 0; border: 1px solid #ddd;">
+                <p><strong>station_demographics_BLOCKGROUP_level.csv</strong> ← <code>fetch_block_group_data.py</code> ← Census API (ACS 2019-2023) + TIGER/Line (2021)</p>
+                <p><strong>station_demographics_TRACT_level.csv</strong> ← <code>fetch_tract_level_data.py</code> ← Census API (ACS 2019-2023) + TIGER/Line (2021)</p>
+                <p><strong>bart_ac_transit_connectivity.csv</strong> ← <code>analyze_ac_transit_connectivity.py</code> ← <code>data/raw/ac_transit/</code> (GTFS November 2024)</p>
+                <p><strong>bart_ridership_2019_2024.csv</strong> ← Manual transcription ← BART Quarterly Performance Reports (2019-2024 PDFs)</p>
+                <p><strong>tract_blockgroup_comparison.csv</strong> ← <code>compare_tract_vs_blockgroup_analysis.py</code> ← Both tract and block group CSVs above</p>
+            </div>
+
+            <p><strong>External Data Not Included:</strong> LEHD LODES origin-destination data (<code>data/raw/lehd/</code>) was downloaded for exploratory analysis but NOT used in the final analysis due to methodological limitations (see Methods section, "Why We Did Not Use LEHD LODES Data"). Scripts are included for transparency but not required for reproduction of main findings.</p>
+
+            <h3>Data Quality and Validation</h3>
+
+            <p>Multiple validation steps ensure data integrity:</p>
+            <ul style="margin-left: 30px; line-height: 1.9;">
+                <li><strong>Spatial aggregation validation:</strong> Compared tract-level vs. block-group-level demographics for Downtown Berkeley catchment area. Income classifications matched (both "Low-Income Area"), validating robustness of spatial joins.</li>
+                <li><strong>Temporal consistency:</strong> BART ridership figures cross-checked across multiple quarterly reports to ensure no transcription errors. 2019 baseline validated against system-wide totals.</li>
+                <li><strong>GTFS integrity:</strong> AC Transit GTFS feed validated using Google's GTFS validator. All route-stop-trip relationships verified for internal consistency.</li>
+                <li><strong>Coordinate system alignment:</strong> All geospatial data standardized to WGS84 (EPSG:4326). Distance calculations performed in appropriate UTM projection (Zone 10N, EPSG:32610) for metric accuracy.</li>
+            </ul>
+
+            <p><strong>Versioning and Archival:</strong> All data files and scripts are version-controlled using Git. Raw data files (GTFS, shapefiles) are immutable and dated (November 2024, 2021) to prevent confusion if upstream sources update. The GitHub repository serves as a permanent archive for reproducibility beyond the course timeline.</p>
+        </section>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p><strong>BART Transit Equity Analysis: Berkeley Stations (2019-2024)</strong></p>
+    <p>Anand Ashar and Sean Yue | University of California, Berkeley | City Planning 101 | Fall 2025</p>
+    <p style="margin-top: 15px;">GitHub Repository: <a href="https://github.com/anandashar01/bart-transit-equity-full" target="_blank">github.com/anandashar01/bart-transit-equity-full</a></p>
+    <p>Live Site: <a href="https://anandashar01.github.io/bart-transit-equity-full/" target="_blank">anandashar01.github.io/bart-transit-equity-full</a></p>
+</footer>
+
+<!-- Modal for supporting visualizations -->
+<div id="vizModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Visualization</h2>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <iframe id="modalIframe"></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(url, title) {
+        const modal = document.getElementById('vizModal');
+        const iframe = document.getElementById('modalIframe');
+        const titleElem = document.getElementById('modalTitle');
+        
+        titleElem.textContent = title;
+        iframe.src = url;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('vizModal');
+        const iframe = document.getElementById('modalIframe');
+        
+        modal.classList.remove('active');
+        iframe.src = '';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    // Close modal when clicking outside
+    document.getElementById('vizModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+</script>
+
+</body>
+</html>

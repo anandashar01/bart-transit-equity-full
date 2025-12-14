@@ -1,0 +1,41 @@
+LEHD LODES DATA LIMITATION FOR BERKELEY ANALYSIS
+=================================================
+
+FINDING: LEHD data CANNOT be used for Berkeley transit ridership analysis
+
+REASON:
+-------
+LEHD LODES only captures 25,970 jobs in Berkeley (2019), but Berkeley actually
+has 100,000+ jobs. The discrepancy is because:
+
+1. UC Berkeley (~40,000 employees) is largely EXCLUDED
+   - May be classified as federal employer due to research contracts
+   - LEHD only covers private sector + state/local government
+
+2. Federal employees excluded entirely
+
+3. Self-employed, contractors, gig workers excluded
+
+4. Graduate student workers may not be counted
+
+IMPACT ON ANALYSIS:
+-------------------
+- LEHD shows jobs INCREASED 2019→2021 (25,970 → 38,524)
+- Reality: Jobs DECREASED due to UC Berkeley going remote + downtown office closures
+- LEHD completely misses the UC Berkeley remote work transition
+- This was the PRIMARY driver of BART ridership collapse
+
+CONCLUSION:
+-----------
+DO NOT use LEHD data for missing riders analysis.
+
+Our current approach (news reports + BART ridership data + population statistics)
+is MORE ACCURATE than LEHD for this specific case because it captures the
+UC Berkeley effect.
+
+LEHD would be useful for:
+- General commute pattern analysis in areas without major federal employers
+- Small-scale neighborhood commute analysis
+- Comparing typical employment centers
+
+But NOT for Berkeley 2019-2021 where UC Berkeley remote work was the key story.

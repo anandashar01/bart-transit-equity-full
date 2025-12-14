@@ -1,0 +1,21 @@
+# BART Transit Equity Analysis - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core data analysis
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Geospatial analysis
+geopandas>=0.13.0
+shapely>=2.0.0
+
+# Visualization
+plotly>=5.14.0
+kaleido>=0.2.1
+
+# GTFS and transit data
+requests>=2.31.0
+
+# Optional but recommended
+jupyter>=1.0.0
+notebook>=6.5.0

@@ -1,0 +1,14 @@
+Station,Route,Route_Name,Period,Peak_Headway_Min,Trips_Per_Hour,Total_Peak_Trips
+Downtown Berkeley,6,Berkeley - Telegraph - Oakland,Pre-COVID (2019),12.247448979591837,4.89897937929598,487
+Downtown Berkeley,7,Arlington - Shattuck - Stanford,Pre-COVID (2019),63.30534351145038,0.947787290485952,274
+Downtown Berkeley,12,MLK Jr. - Temescal - Grand,Pre-COVID (2019),21.268918918918917,2.8210178537391197,847
+Downtown Berkeley,18,Solano - Shattuck - Park Blvd.,Pre-COVID (2019),15.582509733453128,3.850470882183356,1242
+Downtown Berkeley,51B,University - College - Rockridge,Pre-COVID (2019),14.136304521808722,4.24439073927951,562
+Downtown Berkeley,52,UC Village - Cedar - UC Campus,Pre-COVID (2019),14.793650793650793,4.0557939914163095,399
+Downtown Berkeley,F,Adeline - Market Transbay,Pre-COVID (2019),27.39107142857143,2.190494817132799,265
+North Berkeley,12,MLK Jr. - Temescal - Grand,Pre-COVID (2019),21.268918918918917,2.8210178537391197,847
+North Berkeley,52,UC Village - Cedar - UC Campus,Pre-COVID (2019),14.793650793650793,4.0557939914163095,399
+Ashby,12,MLK Jr. - Temescal - Grand,Pre-COVID (2019),21.268918918918917,2.8210178537391197,847
+Ashby,18,Solano - Shattuck - Park Blvd.,Pre-COVID (2019),15.582509733453128,3.850470882183356,1242
+Ashby,7,Arlington - Shattuck - Stanford,Pre-COVID (2019),63.30534351145038,0.947787290485952,274
+Ashby,F,Adeline - Market Transbay,Pre-COVID (2019),27.39107142857143,2.190494817132799,265

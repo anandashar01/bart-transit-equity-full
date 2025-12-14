@@ -1,0 +1,8 @@
+Period,Fiscal_Year,Quarter,Date_Range,Year_Month,On_Time_Performance_%,Mean_Delay_Min,Goal_On_Time_%,Avg_Daily_Ridership,Source,Met_Goal,OTP_Gap_from_Goal,Ridership_vs_PreCOVID_%
+Pre-COVID,2018,Q2,Oct-Dec 2017,2018-01,91.4,,91.0,426000,2018_Q2.pdf,True,0.4000000000000057,105.1
+Pre-COVID,2019,Q2,Oct-Dec 2018,2019-01,90.09,,91.0,405321,2019_Q2.pdf,False,-0.9099999999999966,100.0
+During-COVID,2020,Q3,Jan-Mar 2020,2020-02,88.5,,91.0,325000,2020_Q3.pdf,False,-2.5,80.2
+During-COVID,2021,Q2,Oct-Dec 2020,2021-01,85.0,,91.0,50000,2021_Q2.pdf,False,-6.0,12.3
+Post-COVID,2022,Q2,Oct-Dec 2021,2022-01,76.0,,91.0,85000,2022_Q2.pdf,False,-15.0,21.0
+Post-COVID,2023,Q2,Oct-Dec 2022,2023-01,71.0,,91.0,146000,2023_Q2.pdf,False,-20.0,36.0
+Post-COVID,2024,Q2,Oct-Dec 2023,2024-01,92.0,,91.0,157000,2024_Q2.pdf,True,1.0,38.7

@@ -1,0 +1,3 @@
+# Large GTFS data files
+data/raw/ac_transit/stop_times.txt
+data/raw/ac_transit/shapes.txt
