@@ -69,40 +69,42 @@ All data is from authoritative public sources:
 ## Repository Structure
 
 ```
-bart_final/
+bart-transit-equity-full/
 ├── index.html                          # Main interactive report (GitHub Pages site)
 ├── requirements.txt                    # Python dependencies for reproducibility
 ├── README.md                           # This file
 ├── data/
-│   ├── raw/                            # Unmodified source data (see data/raw/README.md)
+│   ├── raw/                            # Unmodified source data
 │   │   ├── ac_transit/                 # AC Transit GTFS feed (November 2024)
 │   │   │   ├── routes.txt
 │   │   │   ├── stops.txt
 │   │   │   ├── trips.txt
 │   │   │   ├── stop_times.txt
 │   │   │   └── shapes.txt
-│   │   ├── census/                     # Census TIGER/Line Shapefiles (2021)
-│   │   │   ├── tl_2021_06_bg/          # Block groups for California
-│   │   │   └── tl_2021_06_tract/       # Tracts for California
-│   │   └── lehd/                       # LEHD LODES (exploratory only, not used in final analysis)
+│   │   └── census/                     # Census TIGER/Line Shapefiles (2021)
+│   │       ├── tl_2021_06_bg/          # Block groups for California
+│   │       └── tl_2021_06_tract/       # Tracts for California
 │   └── processed/                      # Derived analytical datasets
-│       ├── station_demographics_BLOCKGROUP_level.csv  # Block group demographics
-│       ├── station_demographics_TRACT_level.csv       # Census tract demographics (comparison)
-│       ├── bart_ac_transit_connectivity.csv           # AC Transit route counts/frequency
-│       ├── bart_ridership_2019_2024.csv               # Station-level temporal ridership
-│       └── tract_blockgroup_comparison.csv            # Validation of spatial aggregation
-├── scripts_key/                        # Python scripts for all visualizations
+│       ├── station_demographics_BLOCKGROUP_level.csv
+│       ├── bart_ac_transit_connectivity.csv
+│       └── bart_ridership_2019_2024.csv
+├── src/                                # Python scripts for all analyses
 │   ├── create_station_comparison_map.py
 │   ├── create_ac_transit_route_network_map.py
 │   ├── create_dual_system_degradation_ANIMATED.py
+│   ├── create_temporal_service_chart.py
 │   ├── analyze_returner_mode_choice.py
 │   ├── analyze_wfh_retention_and_patterns.py
-│   ├── create_missing_riders_analysis.py
-│   ├── fetch_block_group_data.py       # Generates block group demographics from Census API
-│   ├── fetch_tract_level_data.py       # Generates tract-level demographics (comparison)
-│   └── analyze_ac_transit_connectivity.py  # Calculates route connectivity from GTFS
-├── visualizations/final_report/        # Generated HTML visualizations
-└── supporting_analysis/                # Supporting charts and deep-dive analyses
+│   ├── fetch_block_group_data.py
+│   └── fetch_lehd_commute_data.py
+└── outputs/                            # Generated HTML visualizations
+    ├── MAP1_Transit_Equity_Context.html
+    ├── MAP2_Dual_System_Degradation.html
+    ├── ac_transit_route_network.html
+    ├── multimodal_connectivity_paradox.html
+    ├── temporal_service_quality_chart.html
+    ├── returner_mode_choice_analysis.html
+    └── wfh_retention_clarification.html
 ```
 
 ## Technical Details
@@ -140,16 +142,16 @@ cd bart-transit-equity-full
 pip install -r requirements.txt
 
 # 3. Run visualization scripts (generates HTML files)
-python3 scripts_key/create_station_comparison_map.py
-python3 scripts_key/create_ac_transit_route_network_map.py
-python3 scripts_key/create_dual_system_degradation_ANIMATED.py
-python3 scripts_key/analyze_returner_mode_choice.py
-python3 scripts_key/analyze_wfh_retention_and_patterns.py
-python3 scripts_key/create_missing_riders_analysis.py
+python3 src/create_station_comparison_map.py
+python3 src/create_ac_transit_route_network_map.py
+python3 src/create_dual_system_degradation_ANIMATED.py
+python3 src/analyze_returner_mode_choice.py
+python3 src/analyze_wfh_retention_and_patterns.py
+python3 src/create_missing_riders_analysis.py
 
 # 4. Output files will be generated in:
-#    - visualizations/final_report/
-#    - supporting_analysis/
+#    - outputs/
+#    (all outputs in outputs/ directory)
 
 # 5. Open index.html in browser to view complete report
 open index.html
