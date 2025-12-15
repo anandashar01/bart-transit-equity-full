@@ -406,11 +406,11 @@
 
             <p>For regional context, we analyzed where the 66,000 "missing riders" went across the Bay Area. The loss stems from overlapping factors: remote work eliminated many commutes entirely, some riders left the region, and others switched to driving. These categories overlap. A tech worker might work from home 3 days per week and drive the other 2 days. The key finding is that remote work is the dominant driver of permanent ridership loss, not service quality degradation. Even though BART on-time performance recovered to 92% by 2024, ridership remains 66,000 below 2019 levels because those riders no longer need transit.</p>
 
-            <h3>Limitations of LEHD LODES Data</h3>
+            <h3>Limitations of LEHD Data</h3>
 
             <div class="limitation-box">
-                <strong>Why We Did NOT Use LEHD LODES Employment Data:</strong>
-                <p style="margin-top: 10px; margin-bottom: 0;">We initially explored using Census LEHD LODES (Longitudinal Employer-Household Dynamics Origin-Destination Employment Statistics) to analyze commute flows and employment patterns. However, we discovered that LEHD records employer addresses, not physical commute behavior. A UC Berkeley employee working from home still appears in LEHD with work location = UC Berkeley campus, even though no physical trip occurs. During the pandemic, LEHD showed Berkeley jobs <em>increasing</em> from 26,000 to 39,000 (2019-2021), contradicting all other evidence of employment decline. This artifact occurs because LEHD cannot distinguish between workers physically commuting and workers employed but working remotely. We instead used ACS Table B08301 "Journey to Work," which measures actual commute behavior and correctly shows transit mode share declining from 13% to 7%.</p>
+                <strong>LEHD Data Limitation:</strong>
+                <p style="margin-top: 10px; margin-bottom: 0;">We initially explored using Census LEHD (Longitudinal Employer-Household Dynamics Origin-Destination Employment Statistics) to analyze commute flows and employment patterns. However, we discovered that LEHD records employer addresses, not physical commute behavior. A UC Berkeley employee working from home still appears in LEHD with work location = UC Berkeley campus, even though no physical trip occurs. During the pandemic, LEHD showed Berkeley jobs <em>increasing</em> from 26,000 to 39,000 (2019-2021), contradicting all other evidence of employment decline. This artifact occurs because LEHD cannot distinguish between workers physically commuting and workers employed but working remotely. We instead used ACS Table B08301 "Journey to Work," which measures actual commute behavior and correctly shows transit mode share declining from 13% to 7%.</p>
             </div>
 
             <h3>Tools and Reproducibility</h3>
@@ -946,7 +946,7 @@
                 &nbsp;&nbsp;├── <strong>census/</strong> - U.S. Census Bureau TIGER/Line Shapefiles (2021)<br>
                 &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── tl_2021_06_bg/ (Block groups for California)<br>
                 &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── tl_2021_06_tract/ (Tracts for California)<br>
-                &nbsp;&nbsp;└── <strong>lehd/</strong> - LEHD LODES origin-destination data (2019, 2021)<br>
+                &nbsp;&nbsp;└── <strong>lehd/</strong> - LEHD origin-destination data (2019, 2021)<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── (used for exploratory analysis only)<br>
                 <br>
                 <strong>data/processed/</strong> - Derived analytical datasets<br>
@@ -1034,7 +1034,7 @@
                 <p><strong>tract_blockgroup_comparison.csv</strong> ← <code>compare_tract_vs_blockgroup_analysis.py</code> ← Both tract and block group CSVs above</p>
             </div>
 
-            <p><strong>External Data Not Included:</strong> LEHD LODES origin-destination data (<code>data/raw/lehd/</code>) was downloaded for exploratory analysis but NOT used in the final analysis due to methodological limitations (see Methods section, "Why We Did Not Use LEHD LODES Data"). Scripts are included for transparency but not required for reproduction of main findings.</p>
+            <p><strong>External Data Not Included:</strong> LEHD origin-destination data (<code>data/raw/lehd/</code>) was downloaded for exploratory analysis but NOT used in the final analysis due to methodological limitations (see Methods section, "Why We Did Not Use LEHD Data"). Scripts are included for transparency but not required for reproduction of main findings.</p>
 
             <h3>Data Quality and Validation</h3>
 

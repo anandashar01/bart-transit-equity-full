@@ -55,16 +55,15 @@ All data is from authoritative public sources:
 
 | Metric | Source | Specific Table/Report |
 |--------|--------|----------------------|
-| BART Ridership (2018-2024) | BART Performance Reports | Quarterly fare gate entries |
-| Transit Mode Share (13% → 7%) | Census ACS | Table B08301 "Journey to Work" |
-| Median Household Income | Census ACS | Table B19013 (2019-2023) |
-| Vehicle Ownership | Census ACS | Table B25044 |
-| AC Transit Routes/Frequency | AC Transit GTFS | November 2024 feed |
-| BART On-Time Performance | BART Quarterly Reports | 2018-2024 system metrics |
-| Population Migration | CA Dept of Finance | E-4 Population Estimates |
-| Remote Work Estimates | Bay Area Council Economic Institute | COVID-19 Economic Impact Surveys |
-
-**Why LEHD LODES Was NOT Used:** LEHD records employer addresses, not physical commute behavior. A UC Berkeley employee working from home still appears in LEHD with work location = UC Berkeley campus, even though no physical trip occurs. We used ACS Table B08301 "Journey to Work" instead, which measures actual commute behavior.
+| BART Ridership (2018-2024) | [BART Performance Reports](https://www.bart.gov/about/reports/performance) | Quarterly fare gate entries |
+| Transit Mode Share (13% → 7%) | [U.S. Census ACS](https://data.census.gov) | Table B08301 "Journey to Work" |
+| Median Household Income | [U.S. Census ACS](https://data.census.gov) | Table B19013 (2019-2023) |
+| Vehicle Ownership | [U.S. Census ACS](https://data.census.gov) | Table B25044 |
+| AC Transit Routes/Frequency | [AC Transit GTFS](https://www.actransit.org/planning-focus/data-resource-center) | November 2024 feed |
+| BART On-Time Performance | [BART Quarterly Reports](https://www.bart.gov/about/reports/performance) | 2018-2024 system metrics |
+| Population Migration | [CA Dept of Finance](https://dof.ca.gov/forecasting/demographics/estimates/) | E-4 Population Estimates |
+| Remote Work Estimates | [Bay Area Council Economic Institute](https://www.bayareacouncil.org/economy/) | COVID-19 Economic Impact Surveys |
+| LEHD Employment Data | [U.S. Census LEHD](https://lehd.ces.census.gov/) | Exploratory analysis only |
 
 ## Repository Structure
 
