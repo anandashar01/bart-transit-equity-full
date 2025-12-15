@@ -38,16 +38,15 @@ fig = make_subplots(
 
 # NO background shading - instructor said remove colors
 
-# OTP line - SINGLE COLOR (no gradient)
 fig.add_trace(go.Scatter(
     x=otp_data['Year'],
     y=otp_data['On_Time_Performance_%'],
     mode='lines+markers+text',
-    line=dict(color='#2c3e50', width=4),
-    marker=dict(size=12, color='#2c3e50'),  # SINGLE COLOR
+    line=dict(color='#7f8c8d', width=4),
+    marker=dict(size=12, color='#7f8c8d'),
     text=[f"{val:.1f}%" for val in otp_data['On_Time_Performance_%']],
     textposition='top center',
-    textfont=dict(size=11, color='#2c3e50'),
+    textfont=dict(size=11, color='#7f8c8d'),
     name='On-Time Performance',
     hovertemplate='%{x}: %{y:.1f}% OTP<extra></extra>'
 ), row=1, col=1)
@@ -58,8 +57,6 @@ fig.add_shape(
     line=dict(color="green", width=3, dash="dash"),
     row=1, col=1
 )
-
-# Period labels removed - instructor said remove unnecessary colors
 
 # Goal line label
 fig.add_annotation(
@@ -83,26 +80,16 @@ fig.add_annotation(
     ax=-40, ay=-40
 )
 
-# ============================================================================
-# PANEL 2: EXCESS WAIT TIME
-# ============================================================================
-
-# NO background shading - instructor said remove colors
-
-# Prepare EWT data by income
 ewt_by_income = temporal_equity.groupby(['Fiscal_Year', 'Income_Category'], as_index=False)['Estimated_EWT_Min'].mean()
 ewt_by_income['Year'] = ewt_by_income['Fiscal_Year'].astype(int)
-
-# Plot both income categories
 for income_cat in ['Low-Income Area', 'Non-Low-Income Area']:
     data = ewt_by_income[ewt_by_income['Income_Category'] == income_cat]
-    color = '#e74c3c' if income_cat == 'Low-Income Area' else '#3498db'
 
     fig.add_trace(go.Scatter(
         x=data['Year'],
         y=data['Estimated_EWT_Min'],
         mode='lines+markers',
-        line=dict(color=color, width=4),
+        line=dict(color='#7f8c8d', width=4),
         marker=dict(size=11),
         name=income_cat,
         hovertemplate='%{x}: %{y:.1f} min EWT<extra></extra>'
@@ -115,10 +102,6 @@ fig.add_annotation(
     font=dict(size=10, color='red'), row=2, col=1,
     ax=40, ay=-40
 )
-
-# ============================================================================
-# LAYOUT
-# ============================================================================
 
 fig.update_xaxes(
     title_text="<b>Year</b>",
@@ -152,8 +135,7 @@ fig.update_layout(
     title=dict(
         text=(
             '<b>BART Service Quality Degradation and Recovery (2018-2025)</b><br>' +
-            '<sub>System-Level Time Series Analysis (Fiscal Years 2018-2024, N=7 points) | No Normalization (system-wide %) | ' +
-            'No Classification (continuous timeline) | Track B: Advanced</sub>'
+            '<sub>System Level | Annual Data (2018-2024)</sub>'
         ),
         x=0.5,
         xanchor='center',
@@ -174,28 +156,21 @@ fig.update_layout(
     annotations=list(fig.layout.annotations) + [
         dict(
             text=(
-                'The top panel shows a single dark gray color for all markers and lines because this is system wide data not categorized by income. ' +
-                'The bottom panel uses red for the low income area (Downtown Berkeley) and blue for higher income areas (North Berkeley and Ashby). ' +
-                'These colors distinguish only income categories, not performance levels.<br><br>' +
-
-                'BART on time performance dropped from 91.4% in 2018 to 71.0% in 2023, a 20 point decline representing severe service degradation. ' +
-                'Then it recovered dramatically to 92.0% in 2024, exceeding the 91% goal shown by the green dashed line. ' +
+                'BART on time performance dropped from 91% in 2018 to 71% in 2023. ' +
+                'Then it recovered to 92% in 2024, exceeding the 91% goal. ' +
                 'Riders experienced almost no excess wait time in 2018 and 2019 when trains ran on schedule. ' +
-                'This spiked to 6.6 minutes by 2023 as trains ran late and became unpredictable, then dropped back to nearly zero by 2024. ' +
-                'Excess wait time is calculated as the difference between the 91% goal and actual on time performance, with each percentage point equaling 0.33 minutes of delay.<br><br>' +
+                'This spiked to 6.6 minutes by 2023 as trains ran late, then dropped back to nearly zero by 2024.<br><br>' +
 
-                'Service degradation affected both income groups equally. Both low income and higher income stations got the same poor service from 2022 to 2023 ' +
-                'because on time performance is measured system wide. The difference lies in who could leave versus who stayed. ' +
-                'Wealthier riders switched to cars or work from home, leading to only 30% retention, ' +
-                'while transit dependent riders at Downtown Berkeley had fewer alternatives and showed 36% retention.<br><br>' +
+                'Service degradation affected both income groups equally. Both got the same poor service from 2022 to 2023. ' +
+                'The difference lies in who could leave versus who stayed. ' +
+                'Wealthier riders switched to cars or work from home. ' +
+                'Transit dependent riders at Downtown Berkeley had fewer alternatives and showed 36% retention.<br><br>' +
 
-                'Why did service collapse after COVID recovery began? The 2022 to 2023 spike came from a staffing crisis, deferred maintenance from the pandemic, and labor disputes. ' +
-                'Ridership was already down 70%, and then service degraded further. This dual degradation of both ridership and service quality explains why recovery stalled. ' +
-                'By 2024, BART restored service to 92% on time performance, but riders still have not returned, with 66,000 daily riders still missing compared to 2019.<br><br>' +
+                'The 2022 to 2023 spike came from a staffing crisis, deferred maintenance, and labor disputes. ' +
+                'Ridership was already down 70%, and then service degraded further. ' +
+                'By 2024, BART restored service to 92% on time performance, but riders still have not returned.<br><br>' +
 
-                'Data come from BART Quarterly Performance Reports for 2018 through 2024, with system wide on time performance figures from official PDF reports. ' +
-                'Excess wait time uses BART methodology where EWT equals 91% minus actual on time performance, multiplied by 0.33 minutes. ' +
-                'Income stratification is based on census tracts within 0.5 mile walking distance of each station.'
+                'Data from BART Quarterly Performance Reports 2018 to 2024.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.18,

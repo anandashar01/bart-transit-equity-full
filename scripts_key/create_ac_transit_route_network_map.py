@@ -80,15 +80,14 @@ for route_id in berkeley_route_ids[:30]:  # Limit to 30 routes to avoid clutter
             mode='lines',
             line=dict(
                 width=2,
-                color='rgba(255, 165, 0, 0.7)'  # Single orange color, more visible on dark background
+                color='rgba(255, 165, 0, 0.7)'
             ),
             name=f"Route {route_info['route_short_name']}",
             hovertemplate=f"<b>Route {route_info['route_short_name']}</b><br>{route_info['route_long_name']}<extra></extra>",
-            showlegend=False
+            showlegend=True
         ))
 
-# Plot BART stations - sized by connectivity, colored by income
-income_colors = {'Low-Income Area': '#7f8c8d', 'Non-Low-Income Area': '#95a5a6'}
+income_colors = {'Low-Income Area': '#e74c3c', 'Non-Low-Income Area': '#2c3e50'}
 
 for _, row in bart_stations.iterrows():
     fig.add_trace(go.Scattermapbox(
@@ -120,8 +119,7 @@ fig.update_layout(
     title=dict(
         text=(
             '<b>AC Transit Route Network Serving Berkeley BART Stations</b><br>' +
-            '<sub>Station-Level Analysis (2024) | Routes shown NOT normalized (absolute count) | ' +
-            'No Classification (discrete stations) | Track B: Advanced</sub>'
+            '<sub>Station Level Analysis (2024) | AC Transit GTFS Data</sub>'
         ),
         x=0.5,
         xanchor='center',
@@ -145,30 +143,18 @@ fig.update_layout(
     annotations=[
         dict(
             text=(
-                'Orange lines show AC Transit bus routes, all in the same color for clarity. ' +
-                'Station markers are colored by income category. Red represents the low income area at Downtown Berkeley, ' +
-                'while blue shows the non low income areas at North Berkeley and Ashby. Marker size represents the number of AC Transit routes serving each station, ' +
-                'with larger circles meaning more routes.<br><br>' +
+                'Orange lines show AC Transit bus routes. ' +
+                'Red markers show Downtown Berkeley (low income area), gray shows North Berkeley and Ashby (higher income areas). ' +
+                'Larger circles mean more routes.<br><br>' +
 
-                'AC Transit route density varies significantly across Berkeley BART stations. ' +
-                'Downtown Berkeley has 18 AC Transit routes with 103.6 trips per hour during peak times, ' +
-                'compared to North Berkeley with 9 routes and 47.0 trips per hour, and Ashby with 9 routes and 44.5 trips per hour. ' +
-                'This creates a paradox: the low income, transit dependent area actually has better multimodal access, meaning when BART failed, ' +
-                'Downtown riders theoretically had twice as many bus alternatives.<br><br>' +
+                'Downtown Berkeley has 18 AC Transit routes with 104 trips per hour during peak times. ' +
+                'North Berkeley has 9 routes and 47 trips per hour. Ashby has 9 routes and 45 trips per hour. ' +
+                'Downtown riders had twice as many bus alternatives when BART failed.<br><br>' +
 
-                'Downtown Berkeley benefits from dense bus service driven by the College Avenue commercial corridor and UC Berkeley student demand. ' +
-                'However, this superior bus access did not protect ridership. Downtown still lost 64% of its riders, dropping from 11,566 to 4,170 daily boardings. ' +
-                'Both systems degraded simultaneously, with BART on time performance falling from 91% to 71% and AC Transit cutting 15 to 30% of service. ' +
-                'Better multimodal access only helps if the alternative systems remain functional.<br><br>' +
+                'This bus access did not protect ridership. Downtown still lost 64% of its riders. ' +
+                'Both systems degraded at the same time. BART on time performance fell from 91% to 71%. AC Transit cut 15 to 30% of service.<br><br>' +
 
-                'The route counts shown here are absolute numbers, not normalized by population. ' +
-                'Downtown has more routes partly because it has a larger catchment area population of 38,000 compared to 22,000 at the other stations. ' +
-                'When normalized per 10,000 residents, Downtown has 4.66 routes per 10,000 people, North Berkeley has 4.12, and Ashby has 3.27. ' +
-                'The advantage shrinks but persists, confirming a real difference in transit density beyond just population effects.<br><br>' +
-
-                'Data come from AC Transit GTFS feed from November 2024 for route geometries, stops, and schedules. ' +
-                'Connectivity metrics are from the BART AC Transit connectivity analysis, which examined routes within 0.5 mile walking distance of each station. ' +
-                'Income classifications are from Census ACS 2019 to 2023 five year estimates.'
+                'Data from AC Transit GTFS November 2024 and Census ACS 2019 to 2023.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.18,

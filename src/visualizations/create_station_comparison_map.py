@@ -111,7 +111,7 @@ for _, row in stations.iterrows():
         ),
         text=row['Station'].replace(' Berkeley', '<br>Berkeley'),
         textposition='top center',
-        textfont=dict(size=11, color='black', family='Arial Black'),
+        textfont=dict(size=13, color='white', family='Arial Black'),
         hovertemplate=(
             f"<b>{row['Station']}</b><br><br>" +
             f"<b>RIDERSHIP (2019→2024):</b><br>" +
@@ -139,7 +139,7 @@ fig.update_layout(
     title=dict(
         text=(
             '<b>Berkeley BART Stations: Multimodal Connectivity Paradox</b><br>' +
-            '<sub>Census Tract Level | ACS 2019-2023 | Continuous Scale (0-50%) | No Classification</sub>'
+            '<sub>Census Tract Level | ACS 2019-2023</sub>'
         ),
         x=0.5,
         xanchor='center',
@@ -164,22 +164,21 @@ fig.update_layout(
     annotations=[
         dict(
             text=(
-                'The background color shows the percentage of households without a vehicle in each census tract. Darker red means higher transit dependency. ' +
-                'Red markers show the low income station (Downtown Berkeley) and dark blue markers show higher income stations (North Berkeley and Ashby). ' +
-                'Marker size represents ridership loss, larger circles mean more riders were lost.<br><br>' +
+                'Background color shows households without vehicles by census tract. Darker red means more transit dependency. ' +
+                'Red markers show Downtown Berkeley (low income area), dark blue shows North Berkeley and Ashby (higher income areas). ' +
+                'Larger circles mean more riders lost.<br><br>' +
 
-                'Downtown Berkeley sits in the darkest red zone with 33% of households owning no vehicle and serves 18 AC Transit bus routes. ' +
-                'North Berkeley and Ashby each have only 9 bus routes and much lower transit dependency (around 15% no vehicle). ' +
-                'Yet all three stations lost roughly 65% of their riders between 2019 and 2024. This contradicts standard planning theory which predicts that better bus access should protect against rail service disruptions.<br><br>' +
+                'Downtown Berkeley has 33% no vehicle households and 18 AC Transit routes. ' +
+                'North Berkeley and Ashby have 15% no vehicle households and 9 bus routes each. ' +
+                'All three stations lost about 65% of riders from 2019 to 2024. Better bus access did not protect against losses.<br><br>' +
 
-                'Both systems failed at the same time. BART on time performance dropped from 91% to 71% while AC Transit cut service by 15 to 30%. ' +
-                'When both systems degrade together, having more bus routes provides no benefit. The 2x bus connectivity advantage at Downtown Berkeley was neutralized by parallel system collapse.<br><br>' +
+                'Both systems failed together. BART on time performance dropped from 91% to 71%. AC Transit cut service by 15 to 30%. ' +
+                'When both degrade at once, more bus routes provide no benefit.<br><br>' +
 
-                'Important note about student population: Downtown Berkeley appears low income ($68,120 median) largely because of UC Berkeley students who report very low incomes while enrolled but often have family support and high future earnings. ' +
-                'This differs substantially from long term economic disadvantage. See the Limitations section for more details.<br><br>' +
+                'Downtown Berkeley appears low income largely because UC Berkeley students report very low incomes while enrolled but often have family support. ' +
+                'This differs from permanent economic disadvantage.<br><br>' +
 
-                'Data come from US Census ACS 2019 to 2023 for vehicle ownership at the census tract level, BART Quarterly Reports for ridership from 2019 to 2024, and AC Transit GTFS data from November 2024 for route and frequency information. ' +
-                'Station catchment areas use 0.5 mile walking buffers. The map uses a continuous color scale from 0 to 50% rather than classification breaks to preserve variation across the 20 census tracts.'
+                'Data from US Census ACS 2019 to 2023, BART Quarterly Reports 2019 to 2024, and AC Transit GTFS November 2024.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.2,

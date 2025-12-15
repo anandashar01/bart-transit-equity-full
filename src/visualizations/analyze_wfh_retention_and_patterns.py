@@ -65,19 +65,18 @@ wfh_flow = pd.DataFrame({
 fig.add_trace(go.Bar(
     x=wfh_flow['Category'],
     y=wfh_flow['Workers'],
-    marker=dict(color='#7f8c8d'),  # SINGLE COLOR - instructor said remove unnecessary colors
+    marker=dict(color='#7f8c8d'),
     text=[f"{val:,}k" for val in wfh_flow['Workers']],
     textposition='outside',
     showlegend=False,
     hovertemplate='%{x}<br>%{y:,}k workers<extra></extra>'
 ), row=1, col=1)
 
-# Panel 2: Horizontal bar chart of changed patterns (NO pie charts per assignment rules)
 fig.add_trace(go.Bar(
     y=changed_patterns['Category'],
     x=changed_patterns['Estimated_Riders'],
     orientation='h',
-    marker=dict(color='#95a5a6'),  # SINGLE COLOR - instructor said remove unnecessary colors
+    marker=dict(color='#7f8c8d'),
     text=[f"{val:,} ({val/20000*100:.0f}%)" for val in changed_patterns['Estimated_Riders']],
     textposition='outside',
     showlegend=False,
@@ -88,7 +87,7 @@ fig.update_layout(
     title=dict(
         text=(
             '<b>Clarifying the Missing Riders: WFH Retention & Changed Patterns</b><br>' +
-            '<sub>Bay Area Analysis (2019-2023) | Estimated from survey data | No Normalization (absolute counts) | Track B: Advanced</sub>'
+            '<sub>Bay Area Analysis (2019-2023) | Estimated from Survey Data</sub>'
         ),
         x=0.5,
         xanchor='center',
@@ -99,14 +98,13 @@ fig.update_layout(
     annotations=list(fig.layout.annotations) + [
         dict(
             text=(
-                'Of the 940,000 workers who went to work from home at the peak, 52%, or 490,000 people, are still working from home permanently. ' +
-                'The other 48%, about 450,000 workers, returned to offices but mostly on hybrid schedules working 2 to 3 days per week, ' +
-                'which reduces their transit use by 40 to 60%. This accounts for 64,000 lost transit riders.<br><br>' +
+                '940,000 workers went to work from home at the peak. ' +
+                '52% are still working from home permanently. ' +
+                '48% returned to offices but mostly on hybrid schedules working 2 to 3 days per week. ' +
+                'This reduces their transit use by 40 to 60%.<br><br>' +
 
-                'Changed travel patterns account for 20,000 lost riders. The largest component is hybrid work at 8,000 riders or 40%, ' +
-                'followed by job changes to non commute positions at 4,000 riders or 20%, ' +
-                'unemployment and retirement at 3,000 riders or 15%, off peak shifts at 3,000 riders or 15%, ' +
-                'and reduced trip frequency at 2,000 riders or 10%.'
+                'Changed travel patterns account for 20,000 lost riders. ' +
+                'Hybrid work is 40%, job changes are 20%, unemployment and retirement are 15%, off peak shifts are 15%, and reduced trip frequency is 10%.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.08,

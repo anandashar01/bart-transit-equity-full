@@ -189,19 +189,15 @@ fig.update_layout(
     annotations=[
         dict(
             text=(
-                'Both BART and AC Transit lost roughly 72% of their ridership during COVID. ' +
-                'BART Berkeley stations dropped to 12.4% of 2019 levels in 2021, ' +
-                'while AC Transit system wide dropped to 28% of 2019 levels. ' +
-                'This parallel collapse explains why having more bus routes did not protect Downtown Berkeley. ' +
-                'When both systems degrade at the same time, multimodal connections provide no backup.<br><br>' +
+                'Both BART and AC Transit lost about 72% of ridership during COVID. ' +
+                'BART Berkeley stations dropped to 12.4% of 2019 levels in 2021. ' +
+                'AC Transit system wide dropped to 28%. ' +
+                'More bus routes did not protect Downtown Berkeley because both systems failed together.<br><br>' +
 
-                'Use the slider above to watch the ridership collapse and partial recovery year by year. ' +
-                'The animation shows how both systems followed similar trajectories through the pandemic, ' +
-                'reinforcing that this was a simultaneous failure rather than one system compensating for the other.<br><br>' +
+                'Use the slider to watch ridership collapse and partial recovery year by year. ' +
+                'Both systems followed similar paths through the pandemic.<br><br>' +
 
-                'Data come from BART Quarterly Performance Reports for 2018 through 2024 and AC Transit annual ridership reports. ' +
-                'All ridership figures are normalized to 2019 baseline levels to allow direct comparison. ' +
-                'The interactive time slider allows year by year comparison of how both systems changed together.'
+                'Data from BART Quarterly Performance Reports 2018 to 2024 and AC Transit annual ridership reports.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.35,

@@ -78,7 +78,7 @@ fig.add_trace(go.Bar(
     y=breakdown['Riders'],
     text=[f"{val:,}" for val in breakdown['Riders']],
     textposition='outside',
-    marker=dict(color='#95a5a6'),  # SINGLE COLOR - instructor said remove unnecessary colors
+    marker=dict(color='#7f8c8d'),
     showlegend=False,
     hovertemplate='%{x}<br>%{y:,} riders<extra></extra>'
 ), row=1, col=1)
@@ -95,32 +95,29 @@ fig.add_annotation(
     row=1, col=1
 )
 
-# Panel B: Mode share timeline
-for mode, color in [('Transit_%', '#95a5a6'), ('Drive_%', '#95a5a6'), ('WFH_%', '#7f8c8d')]:
+for mode in ['Transit_%', 'Drive_%', 'WFH_%']:
     fig.add_trace(go.Scatter(
         x=mode_shift['Year'],
         y=mode_shift[mode],
         mode='lines+markers+text',
         name=mode.replace('_%', '').replace('_', ' '),
-        line=dict(width=4, color=color),
+        line=dict(width=4, color='#7f8c8d'),
         marker=dict(size=12),
         text=[f"{val}%" for val in mode_shift[mode]],
         textposition='top center',
         hovertemplate='%{x}: %{y}%<extra></extra>'
     ), row=2, col=1)
 
-# Panel C: Service degradation (BART OTP and AC Transit service)
 service_data = pd.DataFrame({
     'Year': [2019, 2020, 2021, 2022, 2023, 2024],
     'BART_OTP': [90.1, 88.5, 85.0, 76.0, 71.0, 92.0],
     'AC_Service_%': [100, 85, 70, 85, 95, 100]
 })
-
 fig.add_trace(go.Bar(
     x=service_data['Year'],
     y=service_data['BART_OTP'],
     name='BART OTP',
-    marker=dict(color='#95a5a6', opacity=0.7),
+    marker=dict(color='#7f8c8d', opacity=0.7),
     yaxis='y3',
     hovertemplate='%{x}: %{y:.0f}% OTP<extra></extra>'
 ), row=3, col=1)
@@ -147,8 +144,7 @@ fig.update_layout(
     title=dict(
         text=(
             '<b>The Missing Link: Why Office Returners Did Not Restore Transit Ridership</b><br>' +
-            '<sub>Bay Area Analysis (2019-2024) | Estimated counts from mode share data | No Normalization (absolute counts) | ' +
-            'Track B: Advanced</sub>'
+            '<sub>Bay Area Analysis (2019-2024) | Estimated from Mode Share Data</sub>'
         ),
         x=0.5,
         xanchor='center',
@@ -167,33 +163,23 @@ fig.update_layout(
     annotations=list(fig.layout.annotations) + [
         dict(
             text=(
-                'About 450,000 Bay Area workers returned to offices from the work from home peak. ' +
-                'This figure comes from the decline in remote work from 33% to 19%, which equals 14 percentage points across 3.2 million workers, ' +
-                'giving 448,000 returners rounded to 450,000 according to the Bay Area Council Economic Institute. ' +
-                'Of these returning workers, 59,000 were former transit riders based on the 13% transit share. ' +
-                '51% of them, about 30,000 people, switched to driving full time. ' +
-                '34%, around 20,000 people, went hybrid and work 2 to 3 days per week, reducing their transit use by about 60%. ' +
-                'Only 10%, roughly 6,000 people, returned to transit full time, and 5%, about 3,000 people, made other changes. ' +
-                'This explains why ridership only recovered to 66% of 2019 levels. Most office returners chose not to go back to transit.<br><br>' +
+                '450,000 Bay Area workers returned to offices from the work from home peak. ' +
+                '59,000 were former transit riders. ' +
+                '51% switched to driving full time. ' +
+                '34% went hybrid and work 2 to 3 days per week, reducing transit use by 60%. ' +
+                'Only 10% returned to transit full time. ' +
+                'Most office returners chose not to go back to transit.<br><br>' +
 
-                'Mode share data confirms the permanent shift. Transit use dropped by half, from 13% to 7%, ' +
-                'while driving recovered from 59% to 68%, approaching the pre pandemic level of 73%. ' +
-                'The 6 percentage point drop in transit share represents roughly 30,000 daily commuters who permanently switched to cars. ' +
-                'This pattern persisted through 2023 and 2024 as offices reopened, showing it is not a temporary change.<br><br>' +
+                'Transit use dropped from 13% to 7%. ' +
+                'Driving recovered from 59% to 68%. ' +
+                '30,000 daily commuters permanently switched to cars.<br><br>' +
 
-                'Service degradation drove the switch. BART on time performance collapsed to 71% in 2023, and AC Transit cut 15 to 30% of service in 2021. ' +
-                'Both systems degraded at the same time, making transit unreliable and unappealing. ' +
-                'Combined with COVID fears, increased car ownership during the pandemic, and hybrid work flexibility making cars more practical, ' +
-                'wealthier workers who had a choice picked driving over degraded transit. ' +
-                'Low income workers, with 33% lacking vehicle access, remained transit dependent even as service worsened.<br><br>' +
+                'Service degradation drove the switch. BART on time performance collapsed to 71%. AC Transit cut 15 to 30% of service. ' +
+                'Both systems degraded at the same time. ' +
+                'Wealthier workers who had a choice picked driving over degraded transit. ' +
+                'Low income workers with 33% lacking vehicle access remained transit dependent even as service worsened.<br><br>' +
 
-                'This represents income stratified choice. Wealthier returners switched to cars, representing the loss of choice riders. ' +
-                'Low income workers stayed on transit as transit dependent riders. Downtown Berkeley retention of 36% reflects transit dependent ridership, ' +
-                'while wealthier stations at 30% retention lost even more choice riders to cars.<br><br>' +
-
-                'Data come from US Census ACS Table B08301 for mode share from 2019 to 2023, ' +
-                'BART Quarterly Performance Reports, AC Transit service announcements, ' +
-                'and the Bay Area Council Economic Institute for remote work data.'
+                'Data from US Census ACS 2019 to 2023, BART Quarterly Reports, and Bay Area Council Economic Institute.'
             ),
             xref='paper', yref='paper',
             x=0.5, y=-0.15,
