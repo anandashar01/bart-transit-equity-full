@@ -177,7 +177,7 @@ December 2024
 
 ## License
 
-This project is released under the MIT License - see the [LICENSE](LICENSE) file for details. Data sources are public domain (Census, BART, AC Transit).
+This project is available for educational use. All code and analysis is provided as-is. Data sources are public domain (Census, BART, AC Transit).
 
 ## Acknowledgments
 
