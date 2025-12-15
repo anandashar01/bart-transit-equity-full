@@ -60,7 +60,7 @@ All data is from authoritative public sources:
 | Median Household Income | [U.S. Census ACS](https://data.census.gov) | Table B19013 (2019-2023) |
 | Vehicle Ownership | [U.S. Census ACS](https://data.census.gov) | Table B25044 |
 | AC Transit Routes/Frequency | [AC Transit GTFS](https://www.actransit.org/planning-focus/data-resource-center) | November 2024 feed |
-| BART On-Time Performance | [BART Performance Reports](https://www.bart.gov/about/reports/performance) | 2018-2024 system metrics |
+| BART On-Time Performance | [BART Performance Reports](https://www.bart.gov/about/reports#performance) | 2018-2024 system metrics |
 | Population Migration | [CA Dept of Finance](https://dof.ca.gov/forecasting/demographics/estimates/) | E-4 Population Estimates |
 | Remote Work Estimates | [Bay Area Council Economic Institute](https://www.bayareacouncil.org/economy/) | COVID-19 Economic Impact Surveys |
 | LEHD Employment Data | [U.S. Census LEHD](https://lehd.ces.census.gov/) | Exploratory analysis only |
